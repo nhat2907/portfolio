@@ -10,7 +10,7 @@ Chào mừng đến với mã nguồn Portfolio cá nhân của mình! Đây là
 
 Dự án không chỉ là một trang giới thiệu thông thường mà còn tích hợp nhiều kỹ thuật front-end nâng cao:
 
-- **Giao diện Cyber / Glassmorphism:** Sử dụng CSS hiện đại, hiệu ứng kính mờ (backdrop-filter) kết hợp với các dải màu gradient rực rỡ.
+- **Giao diện Cyber / Glassmorphism:** Sử dụng CSS hiện đại, hiệu ứng kính mờ (`backdrop-filter`) kết hợp với các dải màu gradient rực rỡ.
 - **Đồ họa & Hiệu ứng (WebGL / Canvas):**
   - Nền Shader WebGL tương tác theo chuột (Noise, Wave, Chromatic Aberration).
   - Hệ thống hạt (Bubbles) và con rồng SVG bơi theo con trỏ chuột.
@@ -38,17 +38,22 @@ Dự án được viết **100% bằng Vanilla (thuần)** để tối ưu tốc
 
 ## 🚀 Hướng Dẫn Cài Đặt & Chạy Thử
 
-Vì là dự án web tĩnh 1 file, việc chạy thử cực kỳ đơn giản:
-Mở file index.html:
+Vì là dự án web tĩnh 1 file, việc chạy thử cực kỳ đơn giản. Bạn có 2 cách:
 
-Bác có thể click đúp chuột vào file index.html để mở bằng trình duyệt.
+**Cách 1: Chạy trực tiếp (Nhanh)**
+- Tải file `index.html` về máy và click đúp chuột để mở bằng trình duyệt.
 
-Hoặc sử dụng Extension Live Server trên VS Code để chạy với môi trường localhost (khuyến nghị, để tránh lỗi CORS khi gọi API nhạc).
+**Cách 2: Chạy qua Local Server (Khuyến nghị)**
+- Sử dụng Extension **Live Server** trên VS Code.
+- Hoặc mở terminal tại thư mục chứa code và chạy lệnh:
+  ```bash
+  python -m http.server 8000
+Sau đó truy cập http://localhost:8000 trên trình duyệt.
 
 (Lưu ý: Một số tính năng fetch API có thể bị chặn nếu chạy trực tiếp bằng file:// mà không qua server).
 
 🕹️ Cách Trải Nghiệm Nhanh
-Mở trang web.
+Mở trang web (Live Demo).
 
 Bấm Ctrl + K (hoặc Cmd + K trên Mac) để mở Command Palette.
 
@@ -58,6 +63,19 @@ Thử đổi Theme bằng các nút tròn ở góc trên bên phải.
 
 Bấm nút "Play Snake Game" ở gần cuối trang để giải trí.
 
+📦 Cài Đặt Từ Mã Nguồn
+Nếu bạn muốn clone dự án này về máy để vọc vạch:
+
+Clone repo này về máy:
+
+bash
+git clone https://github.com/nhat2907/portfolio.git
+Di chuyển vào thư mục dự án:
+
+bash
+cd portfolio
+Mở file index.html hoặc chạy local server như hướng dẫn phía trên.
+
 👤 Tác Giả
 NhatHoang (NhatDz)
 
@@ -65,6 +83,4 @@ GitHub: @nhat2907
 
 Discord: 7c3z
 
-1. **Clone repo này về máy:**
-   ```bash
-   git clone https://github.com/nhat2907/portfolio.git
+Dự án được thực hiện cho sự kiện Coding Event của server Cobelix (Mã dự án: PRJ-000004).
