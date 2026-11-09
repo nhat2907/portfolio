@@ -1,0 +1,2565 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NhatHoang | Elite Developer</title>
+<meta name="description" content="NhatHoang — Fullstack Developer & Cyber Security. Portfolio, projects, CTF achievements.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="NhatHoang | Elite Developer">
+<meta property="og:description" content="Fullstack Developer & Cyber Security — projects, skills, achievements.">
+<meta property="og:image" content="https://github.com/nhat2907.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NhatHoang | Elite Developer">
+<meta name="twitter:description" content="Fullstack Developer & Cyber Security — projects, skills, achievements.">
+<meta name="twitter:image" content="https://github.com/nhat2907.png">
+<link rel="icon" href="https://github.com/nhat2907.png">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<style>
+:root {
+    --primary: #1e90ff;
+    --primary-light: #4dabff;
+    --primary-glow: #0077ff;
+    --accent: #00c6ff;
+    --bg-dark: #050a15;
+    --glass: rgba(30, 144, 255, 0.06);
+    --glass-strong: rgba(30, 144, 255, 0.12);
+    --glass-heavy: rgba(5, 10, 21, 0.85);
+    --border: rgba(30, 144, 255, 0.2);
+    --text: #e6f0ff;
+    --text-muted: #8a9fc4;
+    --text-dim: #4a5a7a;
+    --grad-blue: linear-gradient(135deg, #0077ff, #00c6ff);
+    --grad-text: linear-gradient(to right, #ffffff, #4dabff, #ffffff);
+    --font-main: 'Be Vietnam Pro', sans-serif;
+    --font-heading: 'Outfit', sans-serif;
+    --font-code: 'JetBrains Mono', monospace;
+}
+body.theme-red {
+    --primary: #ff3b3b; --primary-light: #ff6b6b; --primary-glow: #ff0040; --accent: #ff8c42;
+    --glass: rgba(255,59,59,0.06); --glass-strong: rgba(255,59,59,0.12);
+    --border: rgba(255,59,59,0.22);
+    --grad-blue: linear-gradient(135deg, #ff0040, #ff8c42);
+    --grad-text: linear-gradient(to right, #fff, #ff6b6b, #fff);
+    background: radial-gradient(ellipse at 50% 0%, #2a0510 0%, #0a0208 60%);
+}
+body.theme-matrix {
+    --primary: #00ff88; --primary-light: #5cffb1; --primary-glow: #00ff88; --accent: #00ffcc;
+    --glass: rgba(0,255,136,0.06); --glass-strong: rgba(0,255,136,0.12);
+    --border: rgba(0,255,136,0.22);
+    --grad-blue: linear-gradient(135deg, #00ff88, #00ffcc);
+    --grad-text: linear-gradient(to right, #fff, #5cffb1, #fff);
+    background: radial-gradient(ellipse at 50% 0%, #032a14 0%, #000a04 60%);
+}
+body.theme-purple {
+    --primary: #a855f7; --primary-light: #c084fc; --primary-glow: #9333ea; --accent: #ec4899;
+    --glass: rgba(168,85,247,0.06); --glass-strong: rgba(168,85,247,0.12);
+    --border: rgba(168,85,247,0.22);
+    --grad-blue: linear-gradient(135deg, #9333ea, #ec4899);
+    --grad-text: linear-gradient(to right, #fff, #c084fc, #fff);
+    background: radial-gradient(ellipse at 50% 0%, #2a0a3d 0%, #0a0415 60%);
+}
+body { transition: background 0.6s ease, color 0.4s ease; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: var(--font-main);
+    background: radial-gradient(ellipse at 50% 0%, #0a1e3d 0%, #050a15 60%);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-dark); }
+::-webkit-scrollbar-thumb { background: var(--grad-blue); border-radius: 10px; }
+
+/* ============ SHADER ============ */
+#shader-canvas {
+    position: fixed; inset: 0; z-index: 2;
+    pointer-events: none;
+    opacity: 0.85;
+    mix-blend-mode: screen;
+    transition: opacity 0.5s;
+}
+body.reduce-motion #shader-canvas { display: none; }
+/* Adaptive performance: máy yếu → tắt shader WebGL + cursor glow (repaint nặng nhất) */
+body.low-perf #shader-canvas { display: none; }
+body.low-perf #cursor-glow { display: none; }
+
+/* ============ CURSOR GLOW ============ */
+#cursor-glow {
+    position: fixed; width: 380px; height: 380px; border-radius: 50%;
+    background: radial-gradient(circle, var(--primary) 0%, transparent 65%);
+    opacity: 0.08; pointer-events: none; transform: translate(-50%, -50%);
+    z-index: 9998; mix-blend-mode: screen;
+}
+@media (max-width: 768px) { #cursor-glow { display: none; } }
+
+/* ============ LOADER ============ */
+#loader {
+    position: fixed; inset: 0; background: var(--bg-dark);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 10000; transition: opacity 0.4s ease;
+}
+.loader-content {
+    text-align: center; padding: 50px 60px;
+    background: var(--glass); border: 1px solid var(--border);
+    border-radius: 30px; backdrop-filter: blur(30px);
+    box-shadow: 0 0 80px rgba(30, 144, 255, 0.3);
+}
+.loader-icon { font-size: 3.5rem; color: var(--primary); animation: pulse 1.5s infinite; margin-bottom: 15px; filter: drop-shadow(0 0 20px var(--primary)); }
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.9); } }
+.loader-text { font-family: var(--font-code); font-size: 0.85rem; letter-spacing: 5px; color: var(--primary-light); }
+.loader-bar { width: 200px; height: 3px; background: rgba(30,144,255,0.15); margin: 20px auto; border-radius: 10px; overflow: hidden; position: relative; }
+.loader-bar::after { content: ''; position: absolute; width: 40%; height: 100%; background: var(--grad-blue); border-radius: 10px; animation: loadMove 1.2s infinite ease-in-out; }
+@keyframes loadMove { 0% { left: -40%; } 100% { left: 100%; } }
+
+/* ============ BACKGROUND LAYERS ============ */
+#fish-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+#background-dragon {
+    position: fixed; inset: 0; z-index: 1;
+    pointer-events: none;
+    color: var(--primary);
+    opacity: 0.35;
+    mix-blend-mode: screen;
+    contain: strict;
+}
+#background-dragon svg { width: 100%; height: 100%; }
+
+/* ============ TOPNAV ============ */
+.topnav {
+    position: sticky; top: 0; z-index: 1000;
+    padding: 16px 6%; display: flex; justify-content: space-between; align-items: center;
+    background: var(--glass-heavy); backdrop-filter: blur(20px) saturate(150%);
+    border-bottom: 1px solid var(--border); gap: 15px; flex-wrap: wrap;
+}
+.nav-brand {
+    font-family: var(--font-heading); font-weight: 800; font-size: 1.4rem; letter-spacing: 1px;
+    background: var(--grad-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.nav-right { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.nav-status { font-family: var(--font-code); font-size: 0.75rem; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+.status-dot { width: 8px; height: 8px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 12px #00ff88; animation: statusPulse 2s infinite; }
+@keyframes statusPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.theme-switch { display: flex; gap: 6px; }
+.theme-dot { width: 22px; height: 22px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: 0.25s; }
+.theme-dot:hover { transform: scale(1.2); }
+.theme-dot.active { border-color: #fff; box-shadow: 0 0 12px currentColor; }
+.theme-dot[data-theme="blue"]   { background: linear-gradient(135deg,#0077ff,#00c6ff); }
+.theme-dot[data-theme="red"]    { background: linear-gradient(135deg,#ff0040,#ff8c42); }
+.theme-dot[data-theme="matrix"] { background: linear-gradient(135deg,#00ff88,#00ffcc); }
+.theme-dot[data-theme="purple"] { background: linear-gradient(135deg,#9333ea,#ec4899); }
+.shader-toggle {
+    width: 26px; height: 26px; border-radius: 8px; cursor: pointer;
+    background: var(--glass); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--primary); font-size: 0.8rem; transition: 0.25s;
+}
+.shader-toggle:hover { background: var(--glass-strong); transform: scale(1.1); }
+.shader-toggle.off { opacity: 0.4; }
+
+/* ============ MAIN ============ */
+.main-container {
+    position: relative; z-index: 10;
+    max-width: 1050px; margin: 50px auto; padding: 0 20px;
+    isolation: isolate;
+}
+
+/* ============ HERO ============ */
+.hero { text-align: center; margin-bottom: 40px; }
+.avt-wrapper { position: relative; width: 170px; height: 170px; margin: 0 auto 30px; display: flex; justify-content: center; align-items: center; }
+.avt-img { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); z-index: 2; box-shadow: 0 0 40px var(--primary-glow), 0 0 80px rgba(30,144,255,0.3); transition: transform 0.5s; }
+.avt-img:hover { transform: scale(1.05); }
+.avt-ring { position: absolute; inset: 0; border-radius: 50%; border: 2px dashed var(--primary); animation: rotateRing 12s linear infinite; opacity: 0.6; }
+.avt-ring-2 { position: absolute; inset: 15px; border-radius: 50%; border: 1px dotted var(--accent); animation: rotateRing 8s linear infinite reverse; opacity: 0.4; }
+@keyframes rotateRing { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.avt-glow { position: absolute; inset: 20px; background: var(--primary); filter: blur(50px); opacity: 0.5; z-index: 1; border-radius: 50%; }
+.avt-frame { position: absolute; width: 220px; height: 220px; top: -25px; left: -25px; z-index: 3; pointer-events: none; }
+.name-title {
+    font-family: var(--font-heading); font-size: 3.5rem; font-weight: 800; letter-spacing: -1.5px;
+    background: var(--grad-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 5px;
+}
+.verify-icon { width: 32px; height: 32px; filter: hue-rotate(180deg) saturate(250%) brightness(1.4) drop-shadow(0 0 8px var(--primary)); }
+.role-tag {
+    font-family: var(--font-code); color: var(--primary); font-size: 0.95rem;
+    margin-top: 10px; display: inline-block; padding: 8px 22px;
+    background: rgba(30,144,255,0.08); border-radius: 25px; border: 1px solid var(--border); letter-spacing: 1px;
+}
+
+/* ============ TERMINAL ============ */
+.terminal-box {
+    max-width: 640px; margin: 25px auto 0;
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 22px;
+    font-family: var(--font-code);
+    font-size: 0.85rem;
+    text-align: left;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.5), 0 0 40px rgba(30,144,255,0.15) inset;
+    backdrop-filter: blur(10px);
+}
+.terminal-header {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
+    padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+.terminal-dot.red { background: #ff5f57; }
+.terminal-dot.yellow { background: #ffbd2e; }
+.terminal-dot.green { background: #28ca42; }
+.terminal-title { margin-left: auto; color: var(--text-dim); font-size: 0.7rem; }
+.terminal-line { color: var(--text-muted); margin-bottom: 4px; line-height: 1.7; }
+.terminal-line .prompt { color: var(--primary); margin-right: 8px; }
+.terminal-line .cmd { color: #fff; }
+.terminal-line .out { color: var(--accent); }
+.terminal-line .bar { color: var(--primary); }
+.terminal-line .ok { color: #00ff88; }
+.terminal-cursor { display: inline-block; width: 8px; height: 14px; background: var(--primary); animation: blink 1s step-end infinite; vertical-align: middle; }
+@keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+
+/* ============ STATS ============ */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin: 40px 0; }
+.stat-card {
+    padding: 22px 15px; text-align: center;
+    background: var(--glass); border: 1px solid var(--border);
+    border-radius: 18px; backdrop-filter: blur(12px);
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative; overflow: hidden;
+}
+.stat-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 2px; background: var(--grad-blue); transition: left 0.6s; }
+.stat-card:hover { transform: translateY(-8px); border-color: var(--primary); box-shadow: 0 15px 40px rgba(30,144,255,0.3); }
+.stat-card:hover::before { left: 0; }
+.stat-num { font-family: var(--font-heading); font-size: 2.3rem; font-weight: 800; background: var(--grad-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; line-height: 1; }
+.stat-suffix { font-family: var(--font-heading); font-size: 1.6rem; font-weight: 800; color: var(--primary); }
+.stat-label { font-family: var(--font-code); font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 8px; display: block; }
+.stat-icon { color: var(--primary); font-size: 1.1rem; margin-bottom: 8px; opacity: 0.6; }
+
+/* ============ GRID MENU ============ */
+.grid-menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 14px; margin-bottom: 50px; }
+.glass-card { background: var(--glass); border: 1px solid var(--border); backdrop-filter: blur(12px); border-radius: 18px; padding: 20px 15px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+.action-btn { cursor: pointer; text-align: center; font-family: var(--font-heading); font-weight: 600; display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--text); text-decoration: none; font-size: 0.85rem; }
+.action-btn i { font-size: 1.6rem; color: var(--primary); transition: 0.3s; }
+.action-btn:hover { background: var(--glass-strong); transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 15px 40px rgba(30,144,255,0.35); }
+.action-btn:hover i { transform: scale(1.25) rotate(-5deg); filter: drop-shadow(0 0 12px var(--primary)); }
+
+/* ============ SECTION ============ */
+.section-box { margin-bottom: 40px; scroll-margin-top: 100px; }
+.section-title { font-family: var(--font-heading); font-size: 1.6rem; font-weight: 700; margin-bottom: 25px; display: flex; align-items: center; gap: 15px; color: var(--text); }
+.section-title::before { content: ''; width: 5px; height: 28px; background: var(--grad-blue); border-radius: 10px; box-shadow: 0 0 15px var(--primary); }
+.section-content { padding: 30px; background: var(--glass); border: 1px solid var(--border); border-radius: 24px; backdrop-filter: blur(15px); box-shadow: 0 10px 40px rgba(0,0,0,0.2); position: relative; z-index: 5; }
+
+/* ============ ABOUT ============ */
+.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+.info-box { padding: 18px; border-left: 3px solid var(--primary); background: rgba(30,144,255,0.04); border-radius: 0 14px 14px 0; transition: 0.3s; }
+.info-box:hover { background: var(--glass-strong); transform: translateX(8px); box-shadow: -5px 0 20px rgba(30,144,255,0.2); }
+.info-label { font-family: var(--font-code); font-size: 0.7rem; color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px; }
+.info-val { font-weight: 700; font-size: 1.05rem; display: block; margin-top: 6px; color: var(--text); }
+
+/* ============ SKILLS ============ */
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.skill-card { padding: 20px; background: rgba(30,144,255,0.04); border: 1px solid var(--border); border-radius: 18px; transition: 0.3s; }
+.skill-card:hover { border-color: var(--primary); box-shadow: 0 10px 30px rgba(30,144,255,0.2); transform: translateY(-5px); }
+.skill-header { display: flex; justify-content: space-between; margin-bottom: 12px; font-weight: 600; font-size: 0.95rem; }
+.skill-percent { color: var(--primary); font-family: var(--font-code); }
+.progress-bar { height: 8px; background: rgba(255,255,255,0.08); border-radius: 10px; overflow: hidden; }
+.progress-fill { height: 100%; width: 0; background: var(--grad-blue); border-radius: 10px; transition: width 2.5s cubic-bezier(0.1, 0, 0.2, 1); box-shadow: 0 0 10px var(--primary); }
+
+/* ============ PROJECTS ============ */
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; }
+.project-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; }
+.project-card:hover { transform: translateY(-12px); border-color: var(--primary); box-shadow: 0 25px 60px rgba(30,144,255,0.35); }
+.project-thumb { width: 100%; height: 170px; object-fit: cover; background: linear-gradient(135deg, rgba(30,144,255,0.15), rgba(0,198,255,0.05)); border-bottom: 1px solid var(--border); transition: transform 0.6s, filter 0.6s; filter: saturate(0.7) brightness(0.85); }
+.project-card:hover .project-thumb { transform: scale(1.08); filter: saturate(1) brightness(1); }
+.project-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+.project-title { font-family: var(--font-heading); font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.project-title i { color: var(--primary); font-size: 0.95rem; }
+.project-desc { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; margin-bottom: 14px; flex: 1; max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.5s, opacity 0.5s, margin 0.5s; }
+.project-card:hover .project-desc { max-height: 120px; opacity: 1; }
+.tech-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.tech-tag { font-family: var(--font-code); font-size: 0.68rem; padding: 3px 10px; border-radius: 12px; background: rgba(30,144,255,0.1); color: var(--primary-light); border: 1px solid var(--border); letter-spacing: 0.5px; }
+.project-links { display: flex; gap: 10px; }
+.project-link { flex: 1; padding: 8px; text-align: center; border-radius: 10px; font-size: 0.8rem; font-weight: 600; text-decoration: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.project-link.demo { background: var(--grad-blue); color: white; box-shadow: 0 5px 20px rgba(30,144,255,0.3); }
+.project-link.demo:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(30,144,255,0.5); }
+.project-link.src { background: transparent; color: var(--text); border: 1px solid var(--border); }
+.project-link.src:hover { background: var(--glass-strong); border-color: var(--primary); color: var(--primary); }
+
+/* ============ GITHUB REPOS ============ */
+.repos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px; }
+.repo-card { padding: 18px; background: rgba(30,144,255,0.04); border: 1px solid var(--border); border-radius: 14px; text-decoration: none; color: var(--text); transition: 0.3s; display: flex; flex-direction: column; gap: 8px; }
+.repo-card:hover { transform: translateY(-5px); border-color: var(--primary); background: var(--glass-strong); box-shadow: 0 10px 30px rgba(30,144,255,0.25); }
+.repo-name { font-family: var(--font-heading); font-weight: 700; font-size: 1rem; color: var(--primary); display: flex; align-items: center; gap: 6px; }
+.repo-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; min-height: 32px; }
+.repo-meta { display: flex; gap: 14px; font-family: var(--font-code); font-size: 0.7rem; color: var(--text-dim); margin-top: 6px; }
+.repo-meta span { display: flex; align-items: center; gap: 4px; }
+.repo-meta i { color: var(--primary); }
+.repo-loading { grid-column: 1 / -1; text-align: center; padding: 30px; font-family: var(--font-code); color: var(--text-muted); font-size: 0.85rem; }
+
+/* ============ TIMELINE ============ */
+.timeline { position: relative; padding-left: 35px; }
+.timeline::before { content: ''; position: absolute; left: 0; top: 10px; bottom: 10px; width: 2px; background: linear-gradient(to bottom, transparent, var(--primary), transparent); }
+.timeline-item { position: relative; margin-bottom: 35px; }
+.timeline-item::after { content: ''; position: absolute; left: -43px; top: 8px; width: 16px; height: 16px; background: var(--primary); border-radius: 50%; border: 4px solid var(--bg-dark); box-shadow: 0 0 20px var(--primary); animation: timelinePulse 2s infinite; }
+@keyframes timelinePulse { 0%, 100% { box-shadow: 0 0 20px var(--primary); } 50% { box-shadow: 0 0 35px var(--primary), 0 0 50px rgba(30,144,255,0.4); } }
+.timeline-year { font-family: var(--font-code); font-weight: 700; color: var(--primary); font-size: 1.1rem; display: block; margin-bottom: 6px; }
+.timeline-content h3 { font-family: var(--font-heading); font-size: 1.15rem; margin-bottom: 6px; }
+.timeline-content p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; }
+
+/* ============ BADGES ============ */
+.badges-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 18px; }
+.badge-card { perspective: 1000px; height: 150px; cursor: pointer; }
+.badge-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.7s; }
+.badge-card:hover .badge-inner { transform: rotateY(180deg); }
+.badge-front, .badge-back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 18px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 18px; border: 1px solid var(--border); }
+.badge-front { background: var(--glass); backdrop-filter: blur(12px); }
+.badge-back { background: var(--glass-strong); backdrop-filter: blur(12px); transform: rotateY(180deg); text-align: center; }
+.badge-icon { font-size: 2.5rem; color: var(--primary); margin-bottom: 10px; filter: drop-shadow(0 0 15px var(--primary)); }
+.badge-name { font-family: var(--font-heading); font-weight: 700; font-size: 0.95rem; }
+.badge-rank { font-family: var(--font-code); font-size: 0.72rem; color: var(--primary); margin-top: 4px; }
+.badge-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+
+/* ============ CERTS ============ */
+.certs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+.cert-card { padding: 20px; background: rgba(30,144,255,0.04); border: 1px solid var(--border); border-radius: 16px; display: flex; gap: 15px; transition: 0.3s; align-items: flex-start; }
+.cert-card:hover { border-color: var(--primary); box-shadow: 0 10px 30px rgba(30,144,255,0.2); transform: translateY(-4px); }
+.cert-icon { width: 50px; height: 50px; border-radius: 12px; background: var(--grad-blue); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.4rem; flex-shrink: 0; box-shadow: 0 5px 20px rgba(30,144,255,0.4); }
+.cert-body { flex: 1; }
+.cert-name { font-family: var(--font-heading); font-weight: 700; font-size: 1rem; margin-bottom: 3px; }
+.cert-issuer { font-family: var(--font-code); font-size: 0.72rem; color: var(--primary); margin-bottom: 8px; }
+.cert-status { font-size: 0.78rem; color: var(--text-muted); }
+.cert-progress-mini { height: 5px; background: rgba(255,255,255,0.08); border-radius: 10px; margin-top: 8px; overflow: hidden; }
+.cert-progress-fill { height: 100%; background: var(--grad-blue); border-radius: 10px; width: 0; transition: width 2s; box-shadow: 0 0 8px var(--primary); }
+
+/* ============ MUSIC PLAYER ============ */
+#music .section-content {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 5;
+}
+.music-player {
+    display: flex; align-items: center; gap: 20px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(30,144,255,0.08), rgba(0,119,255,0.04));
+    border: 1px solid var(--border); border-radius: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 5;
+}
+.music-cover { width: 80px; height: 80px; border-radius: 16px; background-size: cover; background-position: center; border: 2px solid var(--primary); flex-shrink: 0; box-shadow: 0 5px 25px rgba(30,144,255,0.4); animation: coverRotate 20s linear infinite; }
+@keyframes coverRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.music-info { flex: 1; min-width: 150px; }
+.music-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 4px; }
+.music-tag { font-family: var(--font-code); font-size: 0.75rem; color: var(--primary); }
+.music-controls { display: flex; gap: 12px; }
+.music-btn { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text); background: rgba(30,144,255,0.1); border: 1px solid var(--border); transition: 0.3s; }
+.music-btn:hover { transform: scale(1.15); background: var(--primary); color: white; box-shadow: 0 0 25px var(--primary); }
+
+/* ============ WAVEFORM ============ */
+.music-visualizer-wrap {
+    position: relative;
+    width: 100%;
+    height: 70px;
+    margin: 14px 0 10px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: linear-gradient(180deg,
+        rgba(30, 144, 255, 0.03) 0%,
+        rgba(30, 144, 255, 0.08) 100%);
+    border: 1px solid var(--border);
+    box-shadow: inset 0 0 30px rgba(30, 144, 255, 0.08);
+    z-index: 5;
+}
+.music-visualizer-wrap::before {
+    content: 'LIVE WAVEFORM';
+    position: absolute; top: 6px; right: 10px;
+    font-family: var(--font-code); font-size: 0.6rem;
+    letter-spacing: 2px; color: var(--primary);
+    opacity: 0.6; pointer-events: none; z-index: 2;
+}
+.music-visualizer-wrap::after {
+    content: '';
+    position: absolute; top: 8px; right: 78px;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #ff5f57;
+    box-shadow: 0 0 8px #ff5f57;
+    opacity: 0; animation: recBlink 1.5s infinite;
+    z-index: 2; pointer-events: none;
+}
+body.music-playing .music-visualizer-wrap::after { opacity: 1; }
+@keyframes recBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+#musicVisualizer { display: block; width: 100%; height: 100%; opacity: 0.95; transition: opacity 0.3s; }
+body:not(.music-playing) #musicVisualizer { opacity: 0.45; }
+
+/* ============ SEEK BAR ============ */
+.music-seek-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 4px;
+    margin-top: 8px;
+    position: relative;
+    z-index: 5;
+}
+.music-time {
+    font-family: var(--font-code);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    min-width: 42px;
+    text-align: center;
+    user-select: none;
+    transition: color 0.3s;
+}
+.music-seek {
+    flex: 1;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    touch-action: none;
+    user-select: none;
+}
+.music-seek::before {
+    content: '';
+    position: absolute; left: 0; right: 0;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    transition: height 0.2s;
+}
+.music-seek:hover::before { height: 8px; }
+.music-seek-buffer {
+    position: absolute; left: 0;
+    height: 6px; width: 0%;
+    background: rgba(30, 144, 255, 0.25);
+    border-radius: 10px;
+    pointer-events: none;
+    transition: height 0.2s;
+}
+.music-seek:hover .music-seek-buffer { height: 8px; }
+.music-seek-fill {
+    position: absolute; left: 0;
+    height: 6px; width: 0%;
+    background: var(--grad-blue);
+    border-radius: 10px;
+    pointer-events: none;
+    box-shadow: 0 0 12px var(--primary);
+    transition: height 0.2s;
+    will-change: width;
+}
+.music-seek:hover .music-seek-fill { height: 8px; }
+.music-seek-thumb {
+    position: absolute;
+    right: -7px; top: 50%;
+    transform: translateY(-50%) scale(0);
+    width: 14px; height: 14px;
+    background: #fff;
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--primary);
+    transition: transform 0.2s;
+    pointer-events: none;
+}
+.music-seek:hover .music-seek-thumb,
+.music-seek.dragging .music-seek-thumb { transform: translateY(-50%) scale(1); }
+.music-seek.dragging .music-seek-fill,
+.music-seek.dragging .music-seek-buffer { height: 8px; }
+
+/* ============ VOLUME ============ */
+.music-volume-wrap {
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 4px; margin-top: 8px;
+    position: relative; z-index: 5;
+}
+.music-vol-icon {
+    color: var(--primary);
+    font-size: 0.9rem;
+    width: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.music-vol-icon:hover { transform: scale(1.15); filter: drop-shadow(0 0 8px var(--primary)); }
+.music-vol {
+    width: 120px; height: 18px;
+    display: flex; align-items: center;
+    position: relative; cursor: pointer;
+    touch-action: none;
+}
+.music-vol::before {
+    content: ''; position: absolute; left: 0; right: 0;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+}
+.music-vol-fill {
+    position: absolute; left: 0;
+    height: 4px; width: 15%;
+    background: var(--grad-blue);
+    border-radius: 10px;
+    pointer-events: none;
+    box-shadow: 0 0 8px var(--primary);
+}
+.music-vol-thumb {
+    position: absolute;
+    right: -6px; top: 50%;
+    transform: translateY(-50%);
+    width: 10px; height: 10px;
+    background: #fff;
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--primary);
+}
+.music-vol-val {
+    font-family: var(--font-code);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    min-width: 36px;
+    user-select: none;
+}
+
+/* ============ CONTACT ============ */
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
+.contact-item { display: flex; align-items: center; gap: 15px; padding: 18px; background: rgba(30,144,255,0.04); border: 1px solid var(--border); border-radius: 16px; text-decoration: none; color: var(--text); transition: all 0.3s; }
+.contact-item:hover { background: var(--glass-strong); transform: translateX(10px) scale(1.02); border-color: var(--primary); box-shadow: 0 10px 30px rgba(30,144,255,0.35); }
+.contact-item i { font-size: 1.6rem; color: var(--primary); width: 35px; text-align: center; transition: 0.3s; }
+.contact-item:hover i { transform: scale(1.2) rotate(-5deg); filter: drop-shadow(0 0 10px var(--primary)); }
+.contact-item .info { display: flex; flex-direction: column; }
+.contact-item .label { font-weight: 700; font-size: 0.95rem; }
+.contact-item .value { font-family: var(--font-code); font-size: 0.78rem; color: var(--text-muted); }
+
+/* ============ VISITOR BADGE ============ */
+.visitor-badge { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; padding: 6px 14px; font-family: var(--font-code); font-size: 0.7rem; background: var(--glass); border: 1px solid var(--border); border-radius: 20px; color: var(--text-muted); }
+.visitor-badge i { color: var(--primary); }
+.visitor-badge b { color: var(--primary-light); }
+
+/* ============ GAME ============ */
+.game-cta { display: flex; justify-content: center; margin-bottom: 30px; }
+.game-btn {
+    padding: 14px 34px; border-radius: 30px; cursor: pointer;
+    background: var(--grad-blue); color: #fff; border: none;
+    font-family: var(--font-heading); font-weight: 700; font-size: 1rem;
+    letter-spacing: 1px; display: flex; align-items: center; gap: 10px;
+    box-shadow: 0 10px 30px rgba(30,144,255,0.4);
+    transition: 0.3s;
+}
+.game-btn:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 15px 40px rgba(30,144,255,0.6); }
+.game-modal {
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
+    display: none; align-items: center; justify-content: center;
+    padding: 20px;
+}
+.game-modal.active { display: flex; }
+.game-modal-content {
+    background: var(--bg-dark); border: 2px solid var(--primary);
+    border-radius: 20px; padding: 25px; max-width: 500px; width: 100%;
+    box-shadow: 0 0 80px var(--primary-glow);
+    position: relative;
+}
+.game-modal-title { font-family: var(--font-heading); font-weight: 800; font-size: 1.3rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; color: var(--primary); }
+.game-close { position: absolute; top: 15px; right: 15px; width: 32px; height: 32px; border-radius: 8px; background: var(--glass); border: 1px solid var(--border); color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+.game-close:hover { background: var(--primary); color: #fff; }
+#snake-canvas { display: block; margin: 0 auto; background: rgba(0,0,0,0.4); border-radius: 12px; border: 1px solid var(--border); touch-action: none; max-width: 100%; }
+.game-score { text-align: center; font-family: var(--font-code); color: var(--primary); margin-top: 12px; font-size: 0.9rem; }
+.game-hint { text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-top: 6px; }
+
+/* ============ FOOTER ============ */
+footer { text-align: center; padding: 60px 0 40px; font-size: 0.8rem; color: var(--text-dim); font-family: var(--font-code); letter-spacing: 3px; }
+footer span { color: var(--primary); }
+
+/* ============ MATRIX MODE ============ */
+body.matrix-mode { animation: matrixFlash 0.5s ease; }
+@keyframes matrixFlash { 0%, 100% { filter: none; } 50% { filter: hue-rotate(90deg) saturate(2) brightness(1.2); } }
+#matrix-canvas { position: fixed; inset: 0; z-index: 9997; pointer-events: none; opacity: 0; transition: opacity 0.5s; }
+#matrix-canvas.active { opacity: 0.35; }
+#easter-egg-toast {
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    padding: 20px 40px; background: var(--glass-heavy);
+    border: 2px solid var(--primary); border-radius: 20px;
+    font-family: var(--font-code); font-size: 1rem; color: var(--primary);
+    z-index: 9999; letter-spacing: 3px; box-shadow: 0 0 60px var(--primary);
+    backdrop-filter: blur(20px);
+    transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+#easter-egg-toast.show { transform: translate(-50%, -50%) scale(1); }
+
+/* ============ ANIMATION ============ */
+.fade-in { opacity: 0; transform: translateY(30px); animation: fadeInUp 0.8s ease forwards; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 768px) {
+    .name-title { font-size: 2.4rem; }
+    .avt-wrapper { width: 140px; height: 140px; }
+    .avt-img { width: 115px; height: 115px; }
+    .avt-frame { width: 180px; height: 180px; top: -20px; left: -20px; }
+    .main-container { margin: 25px auto; }
+    .section-content { padding: 20px; }
+    .music-controls { width: 100%; justify-content: center; }
+    .loader-content { padding: 35px 40px; }
+    .nav-right { width: 100%; justify-content: space-between; }
+    .terminal-box { font-size: 0.75rem; padding: 14px 16px; }
+}
+@media (max-width: 480px) {
+    .music-time { font-size: 0.7rem; min-width: 36px; }
+    .music-vol { width: 80px; }
+    .music-visualizer-wrap { height: 55px; }
+    .music-visualizer-wrap::before { font-size: 0.55rem; letter-spacing: 1px; }
+    .music-visualizer-wrap::after { right: 68px; }
+}
+
+/* ============ SCROLL PROGRESS ============ */
+#scroll-progress {
+    position: fixed; top: 0; left: 0; height: 3px; width: 100%;
+    background: var(--grad-blue);
+    transform: scaleX(0); transform-origin: 0 50%;
+    z-index: 10001; box-shadow: 0 0 12px var(--primary);
+}
+
+/* ============ BACK TO TOP ============ */
+#backToTop {
+    position: fixed; right: 22px; bottom: 22px; z-index: 9000;
+    width: 46px; height: 46px; border-radius: 14px;
+    background: var(--glass-heavy); border: 1px solid var(--border);
+    color: var(--primary); font-size: 1.1rem; cursor: pointer;
+    backdrop-filter: blur(12px);
+    opacity: 0; transform: translateY(16px); pointer-events: none;
+    transition: opacity 0.35s, transform 0.35s, background 0.3s;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+#backToTop.show { opacity: 1; transform: none; pointer-events: auto; }
+#backToTop:hover { background: var(--primary); color: #fff; box-shadow: 0 0 25px var(--primary); }
+
+/* ============ CUSTOM CURSOR ============ */
+#cursor-dot, #cursor-ring {
+    position: fixed; top: 0; left: 0; pointer-events: none;
+    border-radius: 50%; z-index: 9999;
+}
+#cursor-dot {
+    width: 6px; height: 6px; margin: -3px 0 0 -3px;
+    background: var(--primary); box-shadow: 0 0 10px var(--primary);
+}
+#cursor-ring {
+    width: 34px; height: 34px; margin: -17px 0 0 -17px;
+    border: 1.5px solid var(--primary); opacity: 0.7;
+    transition: width 0.25s, height 0.25s, margin 0.25s, opacity 0.25s;
+}
+#cursor-ring.hovering { width: 52px; height: 52px; margin: -26px 0 0 -26px; opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+    body, body a, body button, body .action-btn, body .theme-dot,
+    body .music-btn, body .badge-card, body .project-card,
+    body .repo-card, body .contact-item, body .game-btn, body .shader-toggle { cursor: none; }
+}
+@media (hover: none) {
+    #cursor-dot, #cursor-ring { display: none; }
+}
+
+/* ============ GLITCH TEXT ============ */
+.glitch { position: relative; }
+.glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute; left: 0; top: 0; width: 100%;
+    -webkit-text-fill-color: currentColor;
+    opacity: 0; pointer-events: none; white-space: nowrap;
+}
+.glitch:hover::before { opacity: 0.75; color: #00e5ff; animation: glitchShift 0.4s steps(2) infinite; }
+.glitch:hover::after { opacity: 0.75; color: #ff0040; animation: glitchShift 0.4s steps(2) infinite reverse; }
+@keyframes glitchShift {
+    0% { transform: translate(0); clip-path: inset(0 0 60% 0); }
+    25% { transform: translate(-4px, 2px); clip-path: inset(20% 0 40% 0); }
+    50% { transform: translate(4px, -2px); clip-path: inset(50% 0 20% 0); }
+    75% { transform: translate(-3px, 1px); clip-path: inset(70% 0 5% 0); }
+    100% { transform: translate(0); clip-path: inset(0 0 60% 0); }
+}
+
+/* ============ COMMAND PALETTE ============ */
+.cmdk-modal {
+    position: fixed; inset: 0; z-index: 10002;
+    background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+    display: none; align-items: flex-start; justify-content: center;
+    padding: 12vh 20px 20px;
+}
+.cmdk-modal.active { display: flex; }
+.cmdk-box {
+    width: 100%; max-width: 560px;
+    background: var(--glass-heavy); border: 1px solid var(--border);
+    border-radius: 18px; overflow: hidden;
+    box-shadow: 0 0 60px rgba(0,0,0,0.6), 0 0 40px var(--primary-glow);
+    animation: cmdkIn 0.25s ease;
+}
+@keyframes cmdkIn { from { opacity: 0; transform: translateY(-12px) scale(0.98); } }
+.cmdk-input-row { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-bottom: 1px solid var(--border); color: var(--primary); }
+.cmdk-input-row input { flex: 1; background: none; border: none; outline: none; color: var(--text); font-family: var(--font-main); font-size: 1rem; min-width: 0; }
+.cmdk-input-row kbd { font-family: var(--font-code); font-size: 0.65rem; border: 1px solid var(--border); border-radius: 6px; padding: 2px 8px; color: var(--text-muted); }
+.cmdk-list { max-height: 320px; overflow-y: auto; padding: 8px; }
+.cmdk-item { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 12px; font-size: 0.92rem; cursor: pointer; color: var(--text-muted); }
+.cmdk-item i { color: var(--primary); width: 20px; text-align: center; }
+.cmdk-item.active { background: var(--glass-strong); color: var(--text); }
+.cmdk-hint { padding: 10px 18px; border-top: 1px solid var(--border); font-family: var(--font-code); font-size: 0.68rem; color: var(--text-dim); letter-spacing: 1px; }
+
+/* ============ TERMINAL INPUT ============ */
+.term-input-row { display: flex; align-items: center; }
+.term-input {
+    flex: 1; background: none; border: none; outline: none;
+    color: #fff; font-family: var(--font-code); font-size: 0.85rem;
+    margin-left: 8px; caret-color: var(--primary); min-width: 0;
+}
+
+/* ============ TILT GLARE ============ */
+.project-card { position: relative; }
+.card-glare {
+    position: absolute; inset: 0; border-radius: 20px;
+    pointer-events: none; background: transparent;
+    transition: background 0.2s; z-index: 2;
+}
+
+/* ============ LIVE ACTIVITY ============ */
+.activity-content { text-align: center; }
+.activity-chart-wrap { overflow-x: auto; padding: 6px; }
+.activity-chart { width: 100%; max-width: 820px; border-radius: 12px; }
+.activity-now {
+    display: flex; align-items: center; justify-content: center;
+    gap: 10px; margin-top: 16px; flex-wrap: wrap;
+    font-family: var(--font-code); font-size: 0.8rem; color: var(--text-muted);
+}
+.activity-now b { color: var(--primary-light); }
+.activity-sep { color: var(--text-dim); }
+
+/* ============ FISH BG + REDUCED MOTION ============ */
+#fish-bg { width: 100%; height: 100%; }
+body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+}
+</style>
+  <style>
+  .name-title { opacity: 0; }
+  body.fonts-loaded .name-title { opacity: 1; transition: opacity 0.3s; }
+</style>
+  <style>
+  .name-title::before,
+  .name-title::after {
+    content: none !important;
+    display: none !important;
+    visibility: hidden !important;
+  }
+</style>
+<script>
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => document.body.classList.add('fonts-loaded'));
+  }
+  setTimeout(() => document.body.classList.add('fonts-loaded'), 1500);
+</script>
+</head>
+<body class="theme-blue">
+
+<div id="scroll-progress"></div>
+<div id="cursor-glow"></div>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<canvas id="matrix-canvas"></canvas>
+<canvas id="shader-canvas"></canvas>
+<div id="easter-egg-toast">⚡ MATRIX MODE ACTIVATED ⚡</div>
+
+<div class="game-modal" id="gameModal">
+    <div class="game-modal-content">
+        <button class="game-close" onclick="closeGame()"><i class="bi bi-x-lg"></i></button>
+        <h3 class="game-modal-title"><i class="bi bi-joystick"></i>Snake Game</h3>
+        <canvas id="snake-canvas" width="400" height="400"></canvas>
+        <div class="game-score">Score: <span id="snake-score">0</span> | Best: <span id="snake-best">0</span></div>
+        <div class="game-hint">↑ ↓ ← → hoặc WASD để di chuyển</div>
+    </div>
+</div>
+
+<div class="cmdk-modal" id="cmdkModal">
+    <div class="cmdk-box">
+        <div class="cmdk-input-row">
+            <i class="bi bi-search"></i>
+            <input id="cmdkInput" type="text" placeholder="Gõ lệnh hoặc tìm section..." autocomplete="off" spellcheck="false" aria-label="command palette">
+            <kbd>ESC</kbd>
+        </div>
+        <div class="cmdk-list" id="cmdkList"></div>
+        <div class="cmdk-hint">↑↓ điều hướng • Enter chọn • Ctrl+K đóng/mở</div>
+    </div>
+</div>
+
+<div id="loader">
+    <div class="loader-content">
+        <div class="loader-icon"><i class="bi bi-shield-lock-fill"></i></div>
+        <div class="loader-text">WELCOME TO NHATHOANG</div>
+        <div class="loader-bar"></div>
+        <div style="font-family: var(--font-code); font-size: 0.7rem; color: var(--text-muted); margin-top: 10px;">#fullstack_developer_1337</div>
+    </div>
+</div>
+
+<canvas id="fish-bg"></canvas>
+
+<div id="background-dragon">
+    <svg id="screen" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+        <defs>
+            <g id="Cabeza">
+                <path style="fill:currentColor;" d="M-28.9,-1.1L-28.55 -1.95Q-28.1 -3.1 -27.25 -2.95L-26.7 -2.95Q-27.7 -1.65 -28.9 -1.1M-18.35,-1.8Q-15.1 -10.3 -9.6 -6.05Q-15.1 -6.2 -18.35 -1.8M-18.35,1.1Q-15.1 5.45 -9.6 5.35Q-15.1 9.55 -18.35 1.1M-26.7,2.2L-27.25 2.25Q-28.1 2.4 -28.55 1.2L-28.9 0.35Q-27.7 0.9 -26.7 2.2" />
+                <path style="fill:currentColor;" d="M-21.05,-8.25Q-13.6 -15.95 -1.3 -12.1Q-7.85 -8.5 -5.85 -4.35Q-2.3 -4.85 10.5 0.15Q0 4.35 -5.85 3.65Q-7.85 7.75 -1.25 12.45Q-13.6 15.2 -21.05 7.5Q-29.55 4.05 -30.2 -0.35Q-29.55 -4.8 -21.05 -8.25M-26.7,-2.95L-27.25 -2.95Q-28.1 -3.1 -28.55 -1.95L-28.9 -1.1Q-27.7 -1.65 -26.7 -2.95M-9.6,-6.05Q-15.1 -10.3 -18.35 -1.8Q-15.1 -6.2 -9.6 -6.05M-9.6,5.35Q-15.1 5.45 -18.35 1.1Q-15.1 9.55 -9.6 5.35M-28.9,0.35L-28.55 1.2Q-28.1 2.4 -27.25 2.25L-26.7 2.2Q-27.7 0.9 -28.9 0.35" />
+            </g>
+            <g id="Aletas">
+                <path style="fill:var(--primary);opacity:0.85;" d="M29.75,-36.85Q-17.75 -61.45 -42.05 -40.95L-45.35 -38.35L-53.7 -41.15L-51.15 -44.85Q-34.85 -68.4 21 -57.8Q-32.2 -72.1 -50.25 -50Q-53.85 -45.65 -56.05 -41.95L-64.7 -43.35L-60.6 -50.3Q-45.9 -75.55 5.1 -79.35Q-2.2 -79.8 -9.45 -79.15Q-16.2 -78.55 -22.85 -77.15Q-29.85 -75.65 -36.5 -73Q-43.05 -70.4 -48.8 -66.85Q-54.55 -63.35 -56.8 -60.3L-60.5 -55.4Q-62.95 -52.1 -67 -43.55L-70.55 -43.55L-76.35 -42.95Q-74.6 -49.1 -71.85 -54.85Q-68.9 -61.25 -64.8 -67.1Q-60.8 -73 -55.45 -77.55Q-49.9 -82.35 -43.65 -85.85L-30.6 -92.7Q-24.05 -95.95 -17 -98.25Q-63.75 -86.35 -73.65 -57.1Q-75.75 -50.75 -77.45 -42.75Q-82.9 -41.75 -88 -39.65Q-87.65 -46.65 -86.3 -53.05Q-79.8 -89.8 -36.65 -117.2Q-80.65 -94.5 -87.55 -59.55Q-88.65 -54.15 -88.95 -39.4L-89.8 -38.85L-92.7 -37.6Q-93.75 -44.35 -94.1 -51.15Q-94.4 -58.2 -93.25 -65.1Q-92.15 -72.5 -90.05 -79.65Q-88.05 -86.55 -85 -93Q-82.1 -99.3 -78.45 -105.15Q-74.6 -111.35 -70.25 -117.25Q-65.95 -123.1 -61.1 -128.55Q-70.3 -119.35 -77.9 -108.7Q-86 -97.3 -90.8 -84.05Q-95.8 -70.5 -96 -56.15Q-96.1 -46 -94.05 -36.05L-93.25 -31.55Q-93.5 -35.65 -92.35 -36Q-79.85 -42 -66.6 -40.45Q-52.45 -38.85 -39.2 -33.25Q-28.3 -29.9 -21.25 -24.15Q-17.8 -23.3 -8.6 -15.6Q-12.1 -20.75 -16.75 -24.5Q-24.55 -30.7 -34.25 -34.05L-42.55 -37Q-38.9 -41.25 -31.5 -43.25Q-24.05 -45.3 -16.2 -46.3Q-8.35 -47.35 -1 -46Q5.95 -44.75 12.75 -42.85Q19.85 -40.9 29.75 -36.85M-92.45,-27.35L-94.95 -36.25Q-109.7 -105 -27.95 -154.65Q-98.65 -103.8 -91.75 -39.4L-89.95 -40.2Q-92.2 -105.25 -5.6 -130.9Q-78.8 -99.95 -87.45 -40.9Q-83.15 -42.95 -78.45 -43.95Q-70 -101.3 17.65 -103.8Q-56.9 -93.4 -74.5 -44.55L-67.4 -45.45Q-49.1 -94.95 39.25 -75.65Q-36.75 -84.35 -62.25 -44.25L-57.3 -43.6Q-31.65 -86.5 56.15 -46.05Q-20.3 -73.35 -51.35 -41.7L-45.95 -39.75Q-17.85 -71.35 51.85 -24.8Q-8.7 -56.4 -39.75 -37.05Q-28.15 -34.05 -14.25 -24.45Q-8.6 -19.85 -5.8 -16.95Q5.95 -2.4 20 0Q5.95 2.4 -5.8 16.95Q-8.6 19.85 -14.25 24.45Q-28.15 34.05 -39.75 37.05Q-8.7 56.4 51.85 24.8Q-17.85 71.35 -45.95 39.75L-51.35 41.7Q-20.3 73.35 56.15 46.1Q-31.65 86.5 -57.3 43.65L-62.25 44.3Q-36.75 84.35 39.25 75.7Q-49.1 94.95 -67.4 45.5L-74.5 44.6Q-56.9 93.4 17.65 103.85Q-70 101.3 -78.45 43.95Q-83.15 42.95 -87.45 40.9Q-78.8 99.95 -5.6 130.9Q-92.2 105.25 -89.95 40.25L-91.75 39.4Q-98.65 103.8 -27.95 154.65Q-109.7 105 -94.95 36.3L-92.45 27.35Q-93.05 33.9 -92.05 34.75Q-91.1 35.55 -88.95 36.7L-87.95 37Q-83.7 38.25 -79.05 38.8L-77.25 38.95Q-72.55 39.3 -67.5 38.85L-65.45 38.65Q-44.4 36.05 -17.8 19.6Q-9.9 12.8 -15.15 4.4Q-18.15 3.15 -19 0Q-18.15 -3.15 -15.15 -4.4Q-9.9 -12.8 -17.8 -19.6L-17.8 -19.55Q-44.4 -36.05 -65.45 -38.6L-67.5 -38.8Q-72.55 -39.3 -77.25 -38.95L-79.05 -38.75Q-83.7 -38.25 -87.95 -36.95L-88.95 -36.65Q-91.1 -35.55 -92.05 -34.7Q-93.05 -33.9 -92.45 -27.35M-8.6,15.6Q-17.8 23.3 -21.25 24.2Q-28.3 29.9 -39.2 33.3Q-52.45 38.85 -66.6 40.5Q-79.85 42 -92.35 36Q-93.5 35.65 -93.25 31.55L-94.05 36.1Q-96.1 46.05 -96 56.15Q-95.8 70.5 -90.8 84.1Q-86 97.3 -77.9 108.75Q-70.3 119.35 -61.1 128.6Q-65.95 123.1 -70.25 117.25Q-74.6 111.35 -78.45 105.15Q-82.1 99.3 -85 93Q-88.05 86.55 -90.05 79.7Q-92.15 72.5 -93.25 65.1Q-94.4 58.2 -94.1 51.2Q-93.75 44.35 -92.7 37.6L-89.8 38.9L-88.95 39.45Q-88.65 54.15 -87.55 59.55Q-80.65 94.5 -36.65 117.25Q-79.8 89.8 -86.3 53.1Q-87.65 46.65 -88 39.65Q-82.9 41.75 -77.45 42.75Q-75.75 50.75 -73.65 57.15Q-63.75 86.35 -17 98.3Q-24.05 95.95 -30.6 92.75L-43.65 85.9Q-49.9 82.35 -55.45 77.6Q-60.8 73 -64.8 67.15Q-68.9 61.25 -71.85 54.85Q-74.6 49.1 -76.35 42.95L-70.55 43.6L-67 43.6Q-62.95 52.1 -60.5 55.4L-56.8 60.35Q-54.55 63.35 -48.8 66.9Q-43.05 70.4 -36.5 73Q-29.85 75.65 -22.85 77.15Q-16.2 78.55 -9.45 79.15Q-2.2 79.8 5.1 79.35Q-45.9 75.55 -60.6 50.3L-64.7 43.4L-56.05 41.95Q-53.85 45.65 -50.25 50Q-32.2 72.1 21 57.85Q-34.85 68.4 -51.15 44.85L-53.7 41.2L-45.35 38.35L-42.05 40.95Q-17.75 61.45 29.75 36.85Q19.85 40.9 12.75 42.9Q5.95 44.75 -1 46Q-8.35 47.35 -16.2 46.35Q-24.05 45.3 -31.5 43.3Q-38.9 41.25 -42.55 37.05L-34.25 34.05Q-24.55 30.7 -16.75 24.5Q-12.1 20.75 -8.6 15.6" />
+            </g>
+            <g id="Espina">
+                <path style="fill:currentColor;" d="M-18.8,0Q-17.85 -5.7 -12.3 -9.6Q-11.2 -5.35 -6.5 -8.25L-6.45 -8.2L-6.2 -8.3Q1.25 -16.25 6.65 -12.4Q0.05 -12.55 0 -5.95Q2.7 -2.4 7.75 -4.1Q18 -1.45 18.8 0L-18.8 0" />
+                <path style="fill:currentColor;" d="M18.8,0Q18 1.45 7.75 4.1Q2.7 2.4 0 5.95Q0.05 12.55 6.65 12.4Q1.25 16.25 -6.2 8.35Q-6.35 8.25 -6.45 8.25L-6.5 8.25Q-11.2 5.35 -12.3 9.6Q-17.85 5.7 -18.8 0L18.8 0" />
+            </g>
+        </defs>
+        <g id="main-group" transform="translate(50, 50) scale(0.25)"></g>
+    </svg>
+</div>
+
+<div class="topnav">
+    <div class="nav-brand">NHATHOANG.DEV</div>
+    <div class="nav-right">
+        <div class="theme-switch">
+            <div class="theme-dot active" data-theme="blue"  title="Cyber Blue"></div>
+            <div class="theme-dot" data-theme="red"   title="Neon Red"></div>
+            <div class="theme-dot" data-theme="matrix" title="Matrix Green"></div>
+            <div class="theme-dot" data-theme="purple" title="Sunset Purple"></div>
+        </div>
+        <div class="shader-toggle" id="shaderToggle" title="Toggle Shader">
+            <i class="bi bi-magic"></i>
+        </div>
+        <div class="nav-status">
+            <span class="status-dot"></span>ONLINE • <span id="visitor-count">1337</span>
+        </div>
+    </div>
+</div>
+
+<div class="main-container">
+    <header class="hero fade-in">
+        <div class="avt-wrapper">
+            <div class="avt-glow"></div>
+            <div class="avt-ring"></div>
+            <div class="avt-ring-2"></div>
+            <img src="https://github.com/nhat2907.png" class="avt-img" alt="NhatHoang Avatar">
+            <img src="https://github.com/WusThanhDieu/Profile-ThanhDieu.Com-V5-Tester/raw/refs/heads/main/res/v5/img/crown/mong-vuot-rong.png" class="avt-frame" alt="frame">
+        </div>
+        <h1 class="name-title glitch" data-text="NhatHoang">
+            NhatHoang
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" class="verify-icon" alt="verified">
+        </h1>
+        <span class="role-tag">#fullstack_developer_1337</span>
+        <div class="visitor-badge">
+            <i class="bi bi-eye-fill"></i> Visits: <b id="visit-count">...</b>
+        </div>
+
+        <div class="terminal-box">
+            <div class="terminal-header">
+                <span class="terminal-dot red"></span>
+                <span class="terminal-dot yellow"></span>
+                <span class="terminal-dot green"></span>
+                <span class="terminal-title">nhat@portfolio:~</span>
+            </div>
+            <div id="terminal-lines"></div>
+        </div>
+    </header>
+
+    <div class="stats-grid fade-in">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="bi bi-folder-fill"></i></div>
+            <span class="stat-num" data-target="42">0</span><span class="stat-suffix">+</span>
+            <span class="stat-label">Projects</span>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="bi bi-git"></i></div>
+            <span class="stat-num" data-target="1337">0</span><span class="stat-suffix">+</span>
+            <span class="stat-label">Commits</span>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="bi bi-clock-history"></i></div>
+            <span class="stat-num" data-target="2500">0</span><span class="stat-suffix">h</span>
+            <span class="stat-label">Coding</span>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="bi bi-trophy-fill"></i></div>
+            <span class="stat-num" data-target="3">0</span><span class="stat-suffix">+</span>
+            <span class="stat-label">Years Exp</span>
+        </div>
+    </div>
+
+    <nav class="grid-menu fade-in">
+        <div class="glass-card action-btn" onclick="scrollToSection('about')"><i class="bi bi-person-badge"></i><span>About</span></div>
+        <div class="glass-card action-btn" onclick="scrollToSection('skills')"><i class="bi bi-cpu"></i><span>Skills</span></div>
+        <div class="glass-card action-btn" onclick="scrollToSection('achievements')"><i class="bi bi-award-fill"></i><span>Badges</span></div>
+        <div class="glass-card action-btn" onclick="scrollToSection('journey')"><i class="bi bi-rocket-launch"></i><span>Journey</span></div>
+        <div class="glass-card action-btn" onclick="scrollToSection('activity')"><i class="bi bi-activity"></i><span>Activity</span></div>
+        <div class="glass-card action-btn" onclick="scrollToSection('music')"><i class="bi bi-music-note-beamed"></i><span>Music</span></div>
+        <a href="https://github.com/nhat2907/" target="_blank" class="glass-card action-btn"><i class="bi bi-github"></i><span>GitHub</span></a>
+        <div class="glass-card action-btn" onclick="scrollToSection('contact')"><i class="bi bi-envelope"></i><span>Contact</span></div>
+    </nav>
+
+    <section id="about" class="section-box fade-in">
+        <h2 class="section-title">ABOUT ME</h2>
+        <div class="section-content">
+            <div class="info-grid">
+                <div class="info-box"><span class="info-label">Name</span><span class="info-val">Nhat Hoang</span></div>
+                <div class="info-box"><span class="info-label">Nickname</span><span class="info-val">NhatHoang / NhatDz</span></div>
+                <div class="info-box"><span class="info-label">Location</span><span class="info-val">Vietnam 🇻🇳</span></div>
+                <div class="info-box"><span class="info-label">Specialization</span><span class="info-val">Fullstack Developer & Cyber Security</span></div>
+                <div class="info-box"><span class="info-label">Discord</span><span class="info-val">7c3z</span></div>
+                <div class="info-box"><span class="info-label">Hobbies</span><span class="info-val">Coding, Gaming, Music, Anime</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="github-repos" class="section-box fade-in">
+        <h2 class="section-title">LATEST FROM GITHUB</h2>
+        <div class="section-content">
+            <div class="repos-grid" id="repos-grid">
+                <div class="repo-loading">⏳ Fetching repos from @nhat2907...</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="activity" class="section-box fade-in">
+        <h2 class="section-title">LIVE ACTIVITY</h2>
+        <div class="section-content activity-content">
+            <div class="activity-chart-wrap">
+                <img src="https://ghchart.rshah.org/nhat2907" alt="GitHub contributions" class="activity-chart" loading="lazy">
+            </div>
+            <div class="activity-now">
+                <span class="status-dot"></span>
+                <span id="local-clock">--:--:--</span>
+                <span class="activity-sep">•</span>
+                <span>Session uptime: <b id="site-uptime">0d 0h 0m</b></span>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="section-box fade-in">
+        <h2 class="section-title">TECHNICAL STACK</h2>
+        <div class="skills-grid">
+            <div class="skill-card"><div class="skill-header"><span>HTML / CSS</span><span class="skill-percent">95%</span></div><div class="progress-bar"><div class="progress-fill" data-percent="95%"></div></div></div>
+            <div class="skill-card"><div class="skill-header"><span>JavaScript</span><span class="skill-percent">90%</span></div><div class="progress-bar"><div class="progress-fill" data-percent="90%"></div></div></div>
+            <div class="skill-card"><div class="skill-header"><span>Python</span><span class="skill-percent">88%</span></div><div class="progress-bar"><div class="progress-fill" data-percent="88%"></div></div></div>
+            <div class="skill-card"><div class="skill-header"><span>C++ / Low Level</span><span class="skill-percent">82%</span></div><div class="progress-bar"><div class="progress-fill" data-percent="82%"></div></div></div>
+            <div class="skill-card"><div class="skill-header"><span>Security / Pentest</span><span class="skill-percent">85%</span></div><div class="progress-bar"><div class="progress-fill" data-percent="85%"></div></div></div>
+            <div class="skill-card"><div class="skill-header"><span>Node.js / Backend</span><span class="skill-percent">87%</span></div><div class="progress-bar"><div class="progress-fill" data-percent="87%"></div></div></div>
+        </div>
+    </section>
+
+    <section id="achievements" class="section-box fade-in">
+        <h2 class="section-title">ACHIEVEMENTS</h2>
+        <div class="badges-grid">
+            <div class="badge-card">
+                <div class="badge-inner">
+                    <div class="badge-front"><div class="badge-icon"><i class="bi bi-shield-fill-check"></i></div><div class="badge-name">HackTheBox</div><div class="badge-rank">PRO HACKER</div></div>
+                    <div class="badge-back"><div class="badge-desc">Solved 50+ machines, top 5% global ranking. Active in CTF competitions.</div></div>
+                </div>
+            </div>
+            <div class="badge-card">
+                <div class="badge-inner">
+                    <div class="badge-front"><div class="badge-icon"><i class="bi bi-bug-fill"></i></div><div class="badge-name">TryHackMe</div><div class="badge-rank">TOP 1%</div></div>
+                    <div class="badge-back"><div class="badge-desc">Completed 200+ rooms, rank #1337 leaderboard. Focus on web & binary exploitation.</div></div>
+                </div>
+            </div>
+            <div class="badge-card">
+                <div class="badge-inner">
+                    <div class="badge-front"><div class="badge-icon"><i class="bi bi-fire"></i></div><div class="badge-name">GitHub Streak</div><div class="badge-rank">365 DAYS</div></div>
+                    <div class="badge-back"><div class="badge-desc">Commit mỗi ngày trong 1 năm liên tục. Green wall full không ngắt quãng.</div></div>
+                </div>
+            </div>
+            <div class="badge-card">
+                <div class="badge-inner">
+                    <div class="badge-front"><div class="badge-icon"><i class="bi bi-trophy-fill"></i></div><div class="badge-name">CTF Player</div><div class="badge-rank">TOP 100</div></div>
+                    <div class="badge-back"><div class="badge-desc">Tham gia 20+ giải CTF quốc tế, top 100 tại các giải lớn như HTB Cyber Apocalypse.</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="journey" class="section-box fade-in">
+        <h2 class="section-title">MY JOURNEY</h2>
+        <div class="section-content">
+            <div class="timeline">
+                <div class="timeline-item"><span class="timeline-year">2023</span><div class="timeline-content"><h3>Newbie Coder</h3><p>Bắt đầu học lập trình với Python, HTML, CSS. Đam mê công nghệ và an ninh mạng.</p></div></div>
+                <div class="timeline-item"><span class="timeline-year">2024</span><div class="timeline-content"><h3>Frontend & Backend</h3><p>Học sâu về JavaScript, Node.js, PHP. Bắt đầu làm các dự án web thực tế.</p></div></div>
+                <div class="timeline-item"><span class="timeline-year">2025</span><div class="timeline-content"><h3>Security Researcher</h3><p>Nghiên cứu về bảo mật, pentest, phát triển tool security. Tham gia cộng đồng white-hat.</p></div></div>
+                <div class="timeline-item"><span class="timeline-year">2026</span><div class="timeline-content"><h3>Fullstack Developer</h3><p>Trở thành Fullstack Developer chuyên nghiệp. Phát triển tool, bot, và hệ thống bảo mật.</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="certs" class="section-box fade-in">
+        <h2 class="section-title">CERTIFICATIONS</h2>
+        <div class="certs-grid">
+            <div class="cert-card">
+                <div class="cert-icon"><i class="bi bi-patch-check-fill"></i></div>
+                <div class="cert-body">
+                    <div class="cert-name">HTB CPTS</div>
+                    <div class="cert-issuer">HackTheBox</div>
+                    <div class="cert-status">✓ Certified Penetration Testing Specialist</div>
+                </div>
+            </div>
+            <div class="cert-card">
+                <div class="cert-icon"><i class="bi bi-patch-check-fill"></i></div>
+                <div class="cert-body">
+                    <div class="cert-name">eJPT</div>
+                    <div class="cert-issuer">INE Security</div>
+                    <div class="cert-status">✓ Junior Penetration Tester</div>
+                </div>
+            </div>
+            <div class="cert-card">
+                <div class="cert-icon"><i class="bi bi-patch-check-fill"></i></div>
+                <div class="cert-body">
+                    <div class="cert-name">CompTIA Security+</div>
+                    <div class="cert-issuer">CompTIA</div>
+                    <div class="cert-status">✓ Security Fundamentals</div>
+                </div>
+            </div>
+            <div class="cert-card">
+                <div class="cert-icon"><i class="bi bi-hourglass-split"></i></div>
+                <div class="cert-body">
+                    <div class="cert-name">OSCP</div>
+                    <div class="cert-issuer">Offensive Security</div>
+                    <div class="cert-status">⏳ In progress — 42%</div>
+                    <div class="cert-progress-mini"><div class="cert-progress-fill" data-percent="42%"></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="music" class="section-box fade-in">
+        <h2 class="section-title">MUSIC PLAYER</h2>
+        <div class="section-content">
+
+            <div class="music-player">
+                <div class="music-cover" id="musicCover"></div>
+                <div class="music-info">
+                    <div class="music-title" id="musicTitle">Loading...</div>
+                    <div class="music-tag" id="musicTag">@nhatHoang</div>
+                </div>
+                <div class="music-controls">
+                    <div class="music-btn" id="prevBtn" title="Previous"><i class="fas fa-backward"></i></div>
+                    <div class="music-btn" id="playBtn" title="Play/Pause"><i class="fas fa-play"></i></div>
+                    <div class="music-btn" id="nextBtn" title="Next"><i class="fas fa-forward"></i></div>
+                </div>
+            </div>
+
+            <div class="music-visualizer-wrap">
+                <canvas id="musicVisualizer"></canvas>
+            </div>
+
+            <div class="music-seek-wrap">
+                <span class="music-time" id="currentTime">0:00</span>
+                <div class="music-seek" id="musicSeek">
+                    <div class="music-seek-buffer" id="musicBuffer"></div>
+                    <div class="music-seek-fill" id="musicSeekFill">
+                        <div class="music-seek-thumb"></div>
+                    </div>
+                </div>
+                <span class="music-time" id="durationTime">--:--</span>
+            </div>
+
+            <div class="music-volume-wrap">
+                <i class="fas fa-volume-low music-vol-icon" id="volIcon"></i>
+                <div class="music-vol" id="musicVol">
+                    <div class="music-vol-fill" id="musicVolFill">
+                        <div class="music-vol-thumb"></div>
+                    </div>
+                </div>
+                <span class="music-vol-val" id="volVal">15%</span>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="game-cta fade-in">
+        <button class="game-btn" onclick="openGame()"><i class="bi bi-joystick"></i> Play Snake Game</button>
+    </div>
+
+    <section id="contact" class="section-box fade-in">
+        <h2 class="section-title">CONTACT & SOCIAL</h2>
+        <div class="contact-grid">
+            <a href="https://www.facebook.com/profile.php?id=61590889193194" target="_blank" class="contact-item"><i class="fab fa-facebook"></i><div class="info"><span class="label">Facebook</span><span class="value">Nhat Hoang</span></div></a>
+            <a href="https://www.youtube.com/@WhyNotMeBrooo" target="_blank" class="contact-item"><i class="fab fa-youtube"></i><div class="info"><span class="label">YouTube</span><span class="value">@WhyNotMeBrooo</span></div></a>
+            <a href="https://www.tiktok.com/@hmnhydra" target="_blank" class="contact-item"><i class="fab fa-tiktok"></i><div class="info"><span class="label">TikTok</span><span class="value">@hmnhydra</span></div></a>
+            <a href="https://www.instagram.com/hggbayacc/" target="_blank" class="contact-item"><i class="fab fa-instagram"></i><div class="info"><span class="label">Instagram</span><span class="value">@hggbayacc</span></div></a>
+            <a href="https://github.com/nhat2907/" target="_blank" class="contact-item"><i class="fab fa-github"></i><div class="info"><span class="label">GitHub</span><span class="value">nhat2907</span></div></a>
+            <a href="#" class="contact-item" onclick="alert('Discord: 7c3z'); return false;"><i class="fab fa-discord"></i><div class="info"><span class="label">Discord</span><span class="value">7c3z</span></div></a>
+        </div>
+    </section>
+
+    <button id="backToTop" title="Về đầu trang" aria-label="Back to top"><i class="bi bi-chevron-up"></i></button>
+
+    <footer>Copyright © 2026 - <span>NhatHoang</span> | All Rights Reserved</footer>
+</div>
+
+<script>
+// ============ REDUCED MOTION ============
+if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.body.classList.add('reduce-motion');
+}
+
+// ============ ADAPTIVE PERFORMANCE ============
+(function() {
+    const body = document.body;
+    const conn = navigator.connection || {};
+    const cores = navigator.hardwareConcurrency || 8;
+    const ram = navigator.deviceMemory || 8;
+    const mobile = window.matchMedia('(hover: none)').matches;
+
+    function engage(reason) {
+        if (body.classList.contains('low-perf')) return;
+        body.classList.add('low-perf');
+        console.info('[perf] low-perf mode engaged (' + reason + ')');
+    }
+
+    if (conn.saveData || (cores <= 4 || ram <= 4) && mobile) { engage('static'); return; }
+
+    window.addEventListener('load', () => setTimeout(() => {
+        let frames = 0;
+        const t0 = performance.now();
+        const probe = (t) => {
+            frames++;
+            if (t - t0 < 3000) { requestAnimationFrame(probe); return; }
+            const fps = (frames * 1000) / (t - t0);
+            if (fps < 40) engage('fps=' + fps.toFixed(0));
+        };
+        requestAnimationFrame(probe);
+    }, 800));
+})();
+
+// ============ LOADER ============
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        const loader = document.getElementById('loader');
+        loader.style.opacity = '0';
+        setTimeout(() => loader.style.display = 'none', 400);
+    }, 500);
+});
+setTimeout(() => {
+    const loader = document.getElementById('loader');
+    if (loader && loader.style.display !== 'none') {
+        loader.style.opacity = '0';
+        setTimeout(() => loader.style.display = 'none', 400);
+    }
+}, 2000);
+
+function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ============ CURSOR GLOW ============
+const cursorGlow = document.getElementById('cursor-glow');
+document.addEventListener('mousemove', (e) => {
+    cursorGlow.style.left = e.clientX + 'px';
+    cursorGlow.style.top  = e.clientY + 'px';
+});
+
+// ============ STATS COUNTER ============
+const animateCounter = (el) => {
+    const target = +el.getAttribute('data-target');
+    const duration = 1800;
+    const start = performance.now();
+    const step = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.floor(eased * target).toLocaleString();
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = target.toLocaleString();
+    };
+    requestAnimationFrame(step);
+};
+const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.querySelectorAll('.stat-num').forEach(animateCounter);
+            statsObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.3 });
+const statsGrid = document.querySelector('.stats-grid');
+if (statsGrid) statsObserver.observe(statsGrid);
+
+// ============ SKILLS + CERTS ============
+const skillObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.querySelectorAll('.progress-fill, .cert-progress-fill').forEach(bar => {
+                setTimeout(() => { bar.style.width = bar.getAttribute('data-percent'); }, 200);
+            });
+        }
+    });
+}, { threshold: 0.2 });
+document.querySelectorAll('.skills-grid, .certs-grid').forEach(el => skillObserver.observe(el));
+
+// ============ THEME SWITCHER ============
+const themeDots = document.querySelectorAll('.theme-dot');
+const applyTheme = (theme) => {
+    document.body.classList.remove('theme-blue', 'theme-red', 'theme-matrix', 'theme-purple');
+    document.body.classList.add('theme-' + theme);
+    themeDots.forEach(d => d.classList.toggle('active', d.dataset.theme === theme));
+    localStorage.setItem('nhat-theme', theme);
+};
+themeDots.forEach(dot => {
+    dot.addEventListener('click', () => applyTheme(dot.dataset.theme));
+});
+const savedTheme = localStorage.getItem('nhat-theme') || 'blue';
+applyTheme(savedTheme);
+
+// ============ VISITOR COUNTER ============
+fetch('https://api.counterapi.dev/v1/nhat2907-portfolio/visits/up')
+    .then(r => r.json())
+    .then(data => {
+        const count = data.count || data.value || 1337;
+        document.getElementById('visit-count').textContent = count.toLocaleString();
+        document.getElementById('visitor-count').textContent = count.toLocaleString();
+    })
+    .catch(() => {
+        let local = +localStorage.getItem('nhat-visits') || 1336;
+        local++;
+        localStorage.setItem('nhat-visits', local);
+        document.getElementById('visit-count').textContent = local.toLocaleString();
+        document.getElementById('visitor-count').textContent = local.toLocaleString();
+    });
+
+// ============ GITHUB REPOS ============
+const langIcons = {
+    JavaScript: 'bi-filetype-js', Python: 'bi-filetype-py', HTML: 'bi-filetype-html',
+    CSS: 'bi-filetype-css', TypeScript: 'bi-filetype-tsx', PHP: 'bi-filetype-php',
+    'C++': 'bi-filetype-cpp', C: 'bi-filetype-c', Java: 'bi-filetype-java',
+    default: 'bi-code-slash'
+};
+fetch('https://api.github.com/users/nhat2907/repos?sort=updated&per_page=6')
+    .then(r => r.json())
+    .then(repos => {
+        const grid = document.getElementById('repos-grid');
+        if (!Array.isArray(repos) || repos.length === 0) throw new Error('No repos');
+        grid.innerHTML = repos.slice(0, 6).map(repo => {
+            const lang = repo.language || 'Code';
+            const icon = langIcons[lang] || langIcons.default;
+            return `
+                <a href="${repo.html_url}" target="_blank" class="repo-card">
+                    <div class="repo-name"><i class="bi ${icon}"></i>${repo.name}</div>
+                    <div class="repo-desc">${repo.description || 'Không có mô tả.'}</div>
+                    <div class="repo-meta">
+                        <span><i class="bi bi-star-fill"></i>${repo.stargazers_count}</span>
+                        <span><i class="bi bi-git"></i>${repo.forks_count}</span>
+                        <span><i class="bi bi-circle-fill" style="color:var(--primary);font-size:0.5rem"></i>${lang}</span>
+                    </div>
+                </a>
+            `;
+        }).join('');
+    })
+    .catch(() => {
+        document.getElementById('repos-grid').innerHTML =
+            '<div class="repo-loading">⚠️ Không thể load GitHub repos (rate limit). Xem tại <a href="https://github.com/nhat2907/" target="_blank" style="color:var(--primary)">github.com/nhat2907</a></div>';
+    });
+
+// ============ REAL PROJECT COUNT FROM GITHUB ============
+fetch('https://api.github.com/users/nhat2907')
+    .then(r => r.json())
+    .then(u => {
+        if (u.public_repos === undefined) return;
+        document.querySelectorAll('.stat-card').forEach(card => {
+            const l = card.querySelector('.stat-label');
+            if (l && l.textContent.trim().toLowerCase() === 'projects') {
+                const num = card.querySelector('.stat-num');
+                if (!num) return;
+                num.setAttribute('data-target', u.public_repos);
+                num.textContent = Number(u.public_repos).toLocaleString();
+            }
+        });
+    })
+    .catch(() => {});
+
+// ============ MUSIC PLAYER (with real-time seek) ============
+const playlist = [
+    { title: "Chạy Khỏi Thế Giới Này", tag: "@nhatHoang_music", src: "https://raw.githubusercontent.com/WusThanhDieu/WusThanhDieu/refs/heads/main/chay-khoi-the-gioi-nay.mp3", cover: "https://i.redd.it/c3oghez8uz8e1.png" },
+    { title: "Hoa Tàn Tình Tan", tag: "@remix_buon", src: "https://files.catbox.moe/gl3esr.mp3", cover: "https://anhanimecosplay.com/wp-content/uploads/2025/10/gai-xinh-cosplay-anime-cosplay-chuan-nhan-vat.jpg" },
+    { title: "Tim Anh Ghen", tag: "@remix_chill", src: "https://files.catbox.moe/zg0h8y.mp3", cover: "https://i.pinimg.com/originals/bf/8c/c4/bf8cc4384024344f0ccd3269b964be05.jpg" },
+    { title: "DJ Thái Hoàng Vol4", tag: "@vinahouse", src: "https://files.catbox.moe/71q24i.mp3", cover: "https://macshop24h.com/wp-content/uploads/2025/05/sexy-anime-cosplay-8.jpg" }
+];
+
+let musicIndex = 0;
+const audio = new Audio();
+audio.preload = 'metadata';
+audio.crossOrigin = 'anonymous';
+audio.volume = 0.15;
+
+const musicCover    = document.getElementById('musicCover');
+const musicTitle    = document.getElementById('musicTitle');
+const musicTag      = document.getElementById('musicTag');
+const playBtn       = document.getElementById('playBtn');
+const musicSeek     = document.getElementById('musicSeek');
+const musicSeekFill = document.getElementById('musicSeekFill');
+const musicBuffer   = document.getElementById('musicBuffer');
+const currentTimeEl = document.getElementById('currentTime');
+const durationTimeEl= document.getElementById('durationTime');
+const musicVol      = document.getElementById('musicVol');
+const musicVolFill  = document.getElementById('musicVolFill');
+const volVal        = document.getElementById('volVal');
+const volIcon       = document.getElementById('volIcon');
+
+function fmt(s) {
+    if (!isFinite(s) || isNaN(s) || s < 0) return '0:00';
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return m + ':' + (sec < 10 ? '0' : '') + sec;
+}
+
+function loadSong(i) {
+    const s = playlist[i];
+    audio.src = s.src;
+    musicCover.style.backgroundImage = `url(${s.cover})`;
+    musicTitle.textContent = s.title;
+    musicTag.textContent = s.tag;
+    musicSeekFill.style.width = '0%';
+    musicBuffer.style.width = '0%';
+    currentTimeEl.textContent = '0:00';
+    durationTimeEl.textContent = '--:--';
+}
+
+function playSong() {
+    audio.play().catch(err => console.warn('Audio play failed:', err));
+    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+}
+function pauseSong() {
+    audio.pause();
+    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+}
+playBtn.onclick = () => audio.paused ? playSong() : pauseSong();
+
+document.getElementById('prevBtn').onclick = () => {
+    musicIndex = (musicIndex - 1 + playlist.length) % playlist.length;
+    loadSong(musicIndex);
+    playSong();
+};
+document.getElementById('nextBtn').onclick = () => {
+    musicIndex = (musicIndex + 1) % playlist.length;
+    loadSong(musicIndex);
+    playSong();
+};
+
+audio.addEventListener('loadedmetadata', () => {
+    durationTimeEl.textContent = fmt(audio.duration);
+});
+audio.addEventListener('durationchange', () => {
+    durationTimeEl.textContent = fmt(audio.duration);
+});
+
+let isDraggingSeek = false;
+
+audio.addEventListener('timeupdate', () => {
+    if (!audio.duration) return;
+    if (!isDraggingSeek) {
+        musicSeekFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+        currentTimeEl.textContent = fmt(audio.currentTime);
+    }
+});
+
+audio.addEventListener('progress', () => {
+    if (audio.buffered.length && audio.duration) {
+        const bufferedEnd = audio.buffered.end(audio.buffered.length - 1);
+        musicBuffer.style.width = (bufferedEnd / audio.duration * 100) + '%';
+    }
+});
+
+audio.addEventListener('ended', () => document.getElementById('nextBtn').click());
+
+function seekFromEvent(e) {
+    const rect = musicSeek.getBoundingClientRect();
+    let x;
+    if (e.touches && e.touches.length) x = e.touches[0].clientX;
+    else if (e.changedTouches && e.changedTouches.length) x = e.changedTouches[0].clientX;
+    else x = e.clientX;
+    let ratio = (x - rect.left) / rect.width;
+    return Math.max(0, Math.min(1, ratio));
+}
+function applySeek(ratio) {
+    musicSeekFill.style.width = (ratio * 100) + '%';
+    if (audio.duration) currentTimeEl.textContent = fmt(ratio * audio.duration);
+}
+function commitSeek(ratio) {
+    if (audio.duration) audio.currentTime = ratio * audio.duration;
+}
+
+musicSeek.addEventListener('mousedown', (e) => {
+    isDraggingSeek = true;
+    musicSeek.classList.add('dragging');
+    applySeek(seekFromEvent(e));
+});
+window.addEventListener('mousemove', (e) => {
+    if (!isDraggingSeek) return;
+    applySeek(seekFromEvent(e));
+});
+window.addEventListener('mouseup', (e) => {
+    if (!isDraggingSeek) return;
+    commitSeek(seekFromEvent(e));
+    isDraggingSeek = false;
+    musicSeek.classList.remove('dragging');
+});
+musicSeek.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    isDraggingSeek = true;
+    musicSeek.classList.add('dragging');
+    applySeek(seekFromEvent(e));
+}, { passive: false });
+musicSeek.addEventListener('touchmove', (e) => {
+    if (!isDraggingSeek) return;
+    e.preventDefault();
+    applySeek(seekFromEvent(e));
+}, { passive: false });
+musicSeek.addEventListener('touchend', (e) => {
+    if (!isDraggingSeek) return;
+    commitSeek(seekFromEvent(e));
+    isDraggingSeek = false;
+    musicSeek.classList.remove('dragging');
+});
+musicSeek.addEventListener('click', (e) => {
+    if (isDraggingSeek) return;
+    commitSeek(seekFromEvent(e));
+});
+
+// ============ VOLUME ============
+let isDraggingVol = false;
+function volFromEvent(e) {
+    const rect = musicVol.getBoundingClientRect();
+    let x;
+    if (e.touches && e.touches.length) x = e.touches[0].clientX;
+    else if (e.changedTouches && e.changedTouches.length) x = e.changedTouches[0].clientX;
+    else x = e.clientX;
+    return Math.max(0, Math.min(1, (x - rect.left) / rect.width));
+}
+function updateVol(ratio) {
+    audio.volume = ratio;
+    musicVolFill.style.width = (ratio * 100) + '%';
+    volVal.textContent = Math.round(ratio * 100) + '%';
+    if (ratio === 0)      volIcon.className = 'fas fa-volume-xmark music-vol-icon';
+    else if (ratio < 0.5) volIcon.className = 'fas fa-volume-low music-vol-icon';
+    else                  volIcon.className = 'fas fa-volume-high music-vol-icon';
+    localStorage.setItem('nhat-vol', ratio);
+}
+updateVol(parseFloat(localStorage.getItem('nhat-vol')) || 0.15);
+
+musicVol.addEventListener('mousedown', (e) => { isDraggingVol = true; updateVol(volFromEvent(e)); });
+window.addEventListener('mousemove', (e) => { if (isDraggingVol) updateVol(volFromEvent(e)); });
+window.addEventListener('mouseup', () => { isDraggingVol = false; });
+musicVol.addEventListener('touchstart', (e) => { e.preventDefault(); isDraggingVol = true; updateVol(volFromEvent(e)); }, { passive: false });
+musicVol.addEventListener('touchmove', (e) => { if (!isDraggingVol) return; e.preventDefault(); updateVol(volFromEvent(e)); }, { passive: false });
+musicVol.addEventListener('touchend', () => { isDraggingVol = false; });
+
+let lastVol = 0.15;
+volIcon.addEventListener('click', () => {
+    if (audio.volume > 0) { lastVol = audio.volume; updateVol(0); }
+    else updateVol(lastVol || 0.15);
+});
+
+loadSong(0);
+
+// ============ WAVEFORM VISUALIZER ============
+(function() {
+    const canvas = document.getElementById('musicVisualizer');
+    if (!canvas) return;
+    if (!window.AudioContext && !window.webkitAudioContext) {
+        canvas.parentElement.style.display = 'none';
+        return;
+    }
+
+    const ctx = canvas.getContext('2d');
+    let audioCtx = null, analyser = null, sourceNode = null;
+    let freqData = null, timeData = null;
+    let rafId = null, idleRaf = null;
+    let initialized = false;
+
+    function resizeCanvas() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        const rect = canvas.getBoundingClientRect();
+        canvas.width  = rect.width  * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    function initAudio() {
+        if (initialized) return true;
+        try {
+            const Ctx = window.AudioContext || window.webkitAudioContext;
+            audioCtx = new Ctx();
+            sourceNode = audioCtx.createMediaElementSource(audio);
+            analyser = audioCtx.createAnalyser();
+            analyser.fftSize = 256;
+            analyser.smoothingTimeConstant = 0.8;
+            sourceNode.connect(analyser);
+            analyser.connect(audioCtx.destination);
+            freqData = new Uint8Array(analyser.frequencyBinCount);
+            timeData = new Uint8Array(analyser.fftSize);
+            initialized = true;
+            return true;
+        } catch (err) {
+            console.warn('Web Audio init failed:', err);
+            canvas.parentElement.style.display = 'none';
+            return false;
+        }
+    }
+
+    function themeRGB() {
+        const hex = getComputedStyle(document.body).getPropertyValue('--primary').trim() || '#1e90ff';
+        const m = hex.replace('#', '');
+        const h = m.length === 3 ? m.split('').map(c => c + c).join('') : m;
+        return [
+            parseInt(h.substr(0, 2), 16),
+            parseInt(h.substr(2, 2), 16),
+            parseInt(h.substr(4, 2), 16)
+        ];
+    }
+
+    function roundRect(c, x, y, w, h, r) {
+        if (h < 2 * r) r = h / 2;
+        c.beginPath();
+        c.moveTo(x + r, y);
+        c.lineTo(x + w - r, y);
+        c.quadraticCurveTo(x + w, y, x + w, y + r);
+        c.lineTo(x + w, y + h - r);
+        c.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        c.lineTo(x + r, y + h);
+        c.quadraticCurveTo(x, y + h, x, y + h - r);
+        c.lineTo(x, y + r);
+        c.quadraticCurveTo(x, y, x + r, y);
+        c.closePath();
+    }
+
+    function draw() {
+        rafId = requestAnimationFrame(draw);
+        if (document.hidden || !analyser) return;
+
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        const W = canvas.width / dpr;
+        const H = canvas.height / dpr;
+        const mid = H / 2;
+
+        analyser.getByteFrequencyData(freqData);
+        analyser.getByteTimeDomainData(timeData);
+        ctx.clearRect(0, 0, W, H);
+
+        const [r, g, b] = themeRGB();
+        const lowPerf = document.body.classList.contains('low-perf');
+        const bars = lowPerf ? 24 : 48;
+        const step = Math.floor(freqData.length / bars);
+        const barW = W / bars;
+
+        for (let i = 0; i < bars; i++) {
+            let sum = 0;
+            for (let j = 0; j < step; j++) sum += freqData[i * step + j];
+            const v = (sum / step) / 255;
+            const barH = v * (H * 0.42);
+            const x = i * barW;
+            const y1 = mid - barH;
+
+            const grad = ctx.createLinearGradient(0, y1, 0, mid + barH);
+            grad.addColorStop(0,   `rgba(${r}, ${g}, ${b}, 0.05)`);
+            grad.addColorStop(0.5, `rgba(${r}, ${g}, ${b}, ${0.5 + v * 0.5})`);
+            grad.addColorStop(1,   `rgba(${r}, ${g}, ${b}, 0.05)`);
+            ctx.fillStyle = grad;
+            ctx.shadowColor = `rgba(${r}, ${g}, ${b}, 0.8)`;
+            ctx.shadowBlur = lowPerf ? 0 : 8 * v;
+            roundRect(ctx, x + barW * 0.15, y1, barW * 0.7, barH * 2, 2);
+            ctx.fill();
+        }
+        ctx.shadowBlur = 0;
+
+        ctx.beginPath();
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = `rgba(255, 255, 255, 0.7)`;
+        ctx.shadowColor = `rgba(${r}, ${g}, ${b}, 1)`;
+        ctx.shadowBlur = lowPerf ? 0 : 10;
+        const sliceW = W / timeData.length;
+        for (let i = 0; i < timeData.length; i++) {
+            const v = (timeData[i] - 128) / 128;
+            const x = i * sliceW;
+            const y = mid + v * (H * 0.42);
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, 0.15)`;
+        ctx.lineWidth = 1;
+        ctx.moveTo(0, mid);
+        ctx.lineTo(W, mid);
+        ctx.stroke();
+    }
+
+    function drawIdle() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        const W = canvas.width / dpr;
+        const H = canvas.height / dpr;
+        const mid = H / 2;
+        ctx.clearRect(0, 0, W, H);
+        const [r, g, b] = themeRGB();
+        const t = performance.now() * 0.001;
+        const bars = document.body.classList.contains('low-perf') ? 24 : 48;
+        const barW = W / bars;
+        for (let i = 0; i < bars; i++) {
+            const v = 0.04 + Math.abs(Math.sin(t * 0.8 + i * 0.3)) * 0.06;
+            const barH = v * H;
+            const grad = ctx.createLinearGradient(0, mid - barH, 0, mid + barH);
+            grad.addColorStop(0,   `rgba(${r}, ${g}, ${b}, 0.02)`);
+            grad.addColorStop(0.5, `rgba(${r}, ${g}, ${b}, 0.35)`);
+            grad.addColorStop(1,   `rgba(${r}, ${g}, ${b}, 0.02)`);
+            ctx.fillStyle = grad;
+            roundRect(ctx, i * barW + barW * 0.15, mid - barH, barW * 0.7, barH * 2, 2);
+            ctx.fill();
+        }
+    }
+
+    function startIdle() {
+        if (idleRaf) return;
+        const loop = () => {
+            idleRaf = requestAnimationFrame(loop);
+            if (document.hidden) return;
+            if (document.body.classList.contains('music-playing')) {
+                cancelAnimationFrame(idleRaf); idleRaf = null; return;
+            }
+            drawIdle();
+        };
+        loop();
+    }
+    function stopIdle() {
+        if (idleRaf) { cancelAnimationFrame(idleRaf); idleRaf = null; }
+    }
+
+    audio.addEventListener('play', () => {
+        if (!initAudio()) return;
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        document.body.classList.add('music-playing');
+        stopIdle();
+        if (!rafId) rafId = requestAnimationFrame(draw);
+    });
+    audio.addEventListener('pause', () => {
+        document.body.classList.remove('music-playing');
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+        startIdle();
+    });
+    audio.addEventListener('loadeddata', () => {
+        if (audio.paused) startIdle();
+    });
+
+    startIdle();
+})();
+
+// ============ DRAGON BACKGROUND ============
+(function() {
+    "use strict";
+    const dragonScreen = document.getElementById("main-group");
+    const xmlns = "http://www.w3.org/2000/svg";
+    const xlinkns = "http://www.w3.org/1999/xlink";
+    const N = 40;
+    const elems = [];
+    let width, height;
+    const pointer = { x: 0, y: 0 };
+    let rad = 0;
+
+    window.addEventListener("pointermove", (e) => {
+        pointer.x = e.clientX;
+        pointer.y = e.clientY;
+        rad = 0;
+    }, false);
+
+    const resize = () => {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        pointer.x = width / 2;
+        pointer.y = height / 2;
+    };
+    window.addEventListener("resize", resize, false);
+    resize();
+
+    const prepend = (use, i) => {
+        const elem = document.createElementNS(xmlns, "use");
+        elems[i].use = elem;
+        elem.setAttributeNS(xlinkns, "xlink:href", "#" + use);
+        dragonScreen.prepend(elem);
+    };
+
+    for (let i = 0; i < N; i++) elems[i] = { use: null, x: pointer.x, y: pointer.y };
+    for (let i = 1; i < N; i++) {
+        if (i === 1) prepend("Cabeza", i);
+        else if (i === 8 || i === 14) prepend("Aletas", i);
+        else prepend("Espina", i);
+    }
+
+    const radm = Math.min(width, height) / 2;
+    let frm = Math.random();
+
+    const runDragon = () => {
+        // máy yếu / reduce-motion: dừng hẳn loop thay vì quay rAF rỗng
+        if (document.body.classList.contains('reduce-motion') || document.body.classList.contains('low-perf')) return;
+        requestAnimationFrame(runDragon);
+        let e = elems[0];
+        const ax = Math.cos(3 * frm) * rad * width / height;
+        const ay = Math.sin(4 * frm) * rad * height / width;
+        e.x += (ax + pointer.x - e.x) / 10;
+        e.y += (ay + pointer.y - e.y) / 10;
+        for (let i = 1; i < N; i++) {
+            let e = elems[i];
+            let ep = elems[i - 1];
+            const a = Math.atan2(e.y - ep.y, e.x - ep.x);
+            e.x += (ep.x - e.x + (Math.cos(a) * (100 - i)) / 5) / 4;
+            e.y += (ep.y - e.y + (Math.sin(a) * (100 - i)) / 5) / 4;
+            const s = (162 + 4 * (1 - i)) / 50 * 0.25;
+            // Note: use `use` transform in screen space
+            e.use.setAttributeNS(null, "transform", `translate(${(ep.x + e.x) / 2},${(ep.y + e.y) / 2}) rotate(${(180 / Math.PI) * a}) scale(${s},${s})`);
+        }
+        if (rad < radm) rad++;
+        frm += 0.003;
+    };
+    runDragon();
+})();
+
+// ============ FISH / BUBBLE BACKGROUND ============
+(function() {
+    const canvas = document.getElementById('fish-bg');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let W, H;
+    const bubbles = [];
+    function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    function spawn(anyY) {
+        return {
+            x: Math.random() * W,
+            y: anyY ? Math.random() * H : H + 20,
+            r: 1 + Math.random() * 3.5,
+            s: 0.2 + Math.random() * 0.7,
+            drift: (Math.random() - 0.5) * 0.4,
+            a: 0.08 + Math.random() * 0.22
+        };
+    }
+    const N = Math.min(40, Math.floor(window.innerWidth / 40));
+    for (let i = 0; i < N; i++) bubbles.push(spawn(true));
+    function themeColor() {
+        return getComputedStyle(document.body).getPropertyValue('--primary').trim() || '#1e90ff';
+    }
+    function frame() {
+        requestAnimationFrame(frame);
+        if (document.hidden || document.body.classList.contains('reduce-motion')) return;
+        const lowPerf = document.body.classList.contains('low-perf');
+        const limit = lowPerf ? Math.min(12, bubbles.length) : bubbles.length;
+        ctx.clearRect(0, 0, W, H);
+        ctx.fillStyle = themeColor();
+        for (let i = 0; i < limit; i++) {
+            const b = bubbles[i];
+            b.y -= b.s;
+            b.x += b.drift + Math.sin(b.y * 0.01) * 0.2;
+            if (b.y < -20) bubbles[i] = spawn(false);
+            ctx.globalAlpha = b.a;
+            ctx.beginPath();
+            ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+    }
+    frame();
+})();
+
+// ============ KONAMI CODE ============
+const konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+let konamiIndex = 0;
+document.addEventListener('keydown', (e) => {
+    const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    if (key === konamiCode[konamiIndex]) {
+        konamiIndex++;
+        if (konamiIndex === konamiCode.length) {
+            activateMatrixMode();
+            konamiIndex = 0;
+        }
+    } else {
+        konamiIndex = (key === konamiCode[0]) ? 1 : 0;
+    }
+});
+
+function activateMatrixMode() {
+    document.body.classList.add('matrix-mode');
+    const toast = document.getElementById('easter-egg-toast');
+    toast.classList.add('show');
+    startMatrixRain();
+    setTimeout(() => {
+        toast.classList.remove('show');
+        document.body.classList.remove('matrix-mode');
+        stopMatrixRain();
+    }, 5000);
+}
+let matrixAnim = null;
+function startMatrixRain() {
+    const canvas = document.getElementById('matrix-canvas');
+    canvas.classList.add('active');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const chars = 'アカサタナハマヤラワ0123456789ABCDEF';
+    const fontSize = 16;
+    const cols = canvas.width / fontSize;
+    const drops = Array(Math.floor(cols)).fill(1);
+    function draw() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#00ff88';
+        ctx.font = fontSize + 'px monospace';
+        for (let i = 0; i < drops.length; i++) {
+            const text = chars.charAt(Math.floor(Math.random() * chars.length));
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
+        }
+        matrixAnim = requestAnimationFrame(draw);
+    }
+    draw();
+}
+function stopMatrixRain() {
+    const canvas = document.getElementById('matrix-canvas');
+    canvas.classList.remove('active');
+    if (matrixAnim) cancelAnimationFrame(matrixAnim);
+    setTimeout(() => {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }, 500);
+}
+
+// ============ TERMINAL ============
+(function() {
+    const container = document.getElementById('terminal-lines');
+    if (!container) return;
+    const lines = [
+        { type: 'cmd', text: 'whoami' },
+        { type: 'out', text: 'nhat --role fullstack --loc VN' },
+        { type: 'cmd', text: 'loading skills' },
+        { type: 'bar' },
+        { type: 'cmd', text: 'access' },
+        { type: 'ok',  text: '✓ access granted. welcome.' }
+    ];
+    let idx = 0;
+    const renderLine = (line, cb) => {
+        const div = document.createElement('div');
+        div.className = 'terminal-line';
+        if (line.type === 'cmd') {
+            div.innerHTML = `<span class="prompt">$</span><span class="cmd"></span><span class="terminal-cursor"></span>`;
+            container.appendChild(div);
+            const cmdEl = div.querySelector('.cmd');
+            const cursor = div.querySelector('.terminal-cursor');
+            let i = 0;
+            const typer = setInterval(() => {
+                cmdEl.textContent += line.text[i]; i++;
+                if (i >= line.text.length) {
+                    clearInterval(typer);
+                    cursor.remove();
+                    setTimeout(cb, 250);
+                }
+            }, 40);
+        } else if (line.type === 'bar') {
+            div.innerHTML = '<span class="bar"></span>';
+            container.appendChild(div);
+            const barEl = div.querySelector('.bar');
+            const total = 10;
+            let p = 0;
+            const anim = setInterval(() => {
+                p += 10;
+                const filled = Math.round(p / 100 * total);
+                barEl.textContent = '█'.repeat(filled) + '░'.repeat(total - filled) + ' ' + p + '%';
+                if (p >= 100) { clearInterval(anim); setTimeout(cb, 250); }
+            }, 120);
+        } else {
+            const cls = line.type === 'ok' ? 'ok' : 'out';
+            div.innerHTML = `<span class="${cls}">${line.text}</span>`;
+            container.appendChild(div);
+            setTimeout(cb, 300);
+        }
+    };
+    const next = () => {
+        if (idx >= lines.length) { attachInteractiveTerm(); return; }
+        renderLine(lines[idx], () => { idx++; next(); });
+    };
+    setTimeout(next, 1200);
+
+    // ============ INTERACTIVE TERMINAL ============
+    const termCommands = {
+        help: () => '<span class="out">Lệnh có sẵn: whoami • skills • social • theme [blue|red|matrix|purple] • matrix • snake • clear</span>',
+        whoami: () => '<span class="out">nhat --role fullstack --loc VN --vibe cyber</span>',
+        skills: () => '<span class="out">HTML/CSS 95% • JS 90% • Python 88% • C++ 82% • Pentest 85% • Node 87%</span>',
+        social: () => '<span class="out">github: nhat2907 • discord: 7c3z • tiktok: @hmnhydra</span>',
+        matrix: () => { activateMatrixMode(); return '<span class="ok">✓ matrix mode engaged.</span>'; },
+        snake: () => { openGame(); return '<span class="ok">✓ launching snake...</span>'; },
+        clear: () => { container.querySelectorAll('.terminal-line:not(.term-input-row)').forEach(el => el.remove()); return ''; },
+        'sudo hire-me': () => '<span class="ok">✓ access granted. NhatHoang đã sẵn sàng nhận job — check phần CONTACT bên dưới.</span>'
+    };
+    function attachInteractiveTerm() {
+        const row = document.createElement('div');
+        row.className = 'terminal-line term-input-row';
+        row.innerHTML = '<span class="prompt">$</span><input class="term-input" type="text" autocomplete="off" spellcheck="false" aria-label="terminal input">';
+        container.appendChild(row);
+        const input = row.querySelector('.term-input');
+        const printLine = (html) => {
+            const d = document.createElement('div');
+            d.className = 'terminal-line';
+            d.innerHTML = html;
+            container.insertBefore(d, row);
+        };
+        const printText = (cls, text) => {
+            const d = document.createElement('div');
+            d.className = 'terminal-line';
+            const s = document.createElement('span');
+            s.className = cls;
+            s.textContent = text;
+            d.appendChild(s);
+            container.insertBefore(d, row);
+        };
+        input.addEventListener('keydown', (e) => {
+            if (e.key !== 'Enter') return;
+            const raw = input.value.trim();
+            const cmd = raw.toLowerCase();
+            const echo = document.createElement('div');
+            echo.className = 'terminal-line';
+            echo.innerHTML = '<span class="prompt">$</span><span class="cmd"></span>';
+            echo.querySelector('.cmd').textContent = raw;
+            container.insertBefore(echo, row);
+            if (!cmd) { /* empty */ }
+            else if (cmd.startsWith('theme ')) {
+                const t = cmd.split(/\s+/)[1];
+                if (['blue', 'red', 'matrix', 'purple'].includes(t)) {
+                    applyTheme(t);
+                    printLine(`<span class="ok">✓ theme → ${t}</span>`);
+                } else {
+                    printText('out', 'theme không hợp lệ. dùng: blue | red | matrix | purple');
+                }
+            }
+            else if (termCommands[cmd]) printLine(termCommands[cmd]());
+            else printText('out', `lệnh không tồn tại: "${raw}". gõ "help".`);
+            input.value = '';
+            row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+    }
+})();
+
+// ============ SNAKE MINI GAME ============
+let snakeGame = null;
+function openGame() {
+    const modal = document.getElementById('gameModal');
+    modal.classList.add('active');
+    if (!snakeGame) snakeGame = createSnakeGame();
+    snakeGame.start();
+}
+function closeGame() {
+    const modal = document.getElementById('gameModal');
+    modal.classList.remove('active');
+    if (snakeGame) snakeGame.stop();
+}
+function createSnakeGame() {
+    const canvas = document.getElementById('snake-canvas');
+    const ctx = canvas.getContext('2d');
+    const scoreEl = document.getElementById('snake-score');
+    const bestEl = document.getElementById('snake-best');
+    const size = 20;
+    const cells = canvas.width / size;
+    let snake, dir, nextDir, food, score, best, timer, running;
+    best = +localStorage.getItem('snake-best') || 0;
+    bestEl.textContent = best;
+
+    function reset() {
+        snake = [{x: 10, y: 10}];
+        dir = {x: 1, y: 0};
+        nextDir = {x: 1, y: 0};
+        score = 0;
+        scoreEl.textContent = 0;
+        placeFood();
+    }
+    function placeFood() {
+        while (true) {
+            food = {x: Math.floor(Math.random()*cells), y: Math.floor(Math.random()*cells)};
+            if (!snake.some(s => s.x === food.x && s.y === food.y)) break;
+        }
+    }
+    function draw() {
+        ctx.fillStyle = 'rgba(0,0,0,0.6)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+        for (let i = 0; i < cells; i++) {
+            ctx.beginPath(); ctx.moveTo(i*size, 0); ctx.lineTo(i*size, canvas.height); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(0, i*size); ctx.lineTo(canvas.width, i*size); ctx.stroke();
+        }
+        ctx.fillStyle = '#00ff88';
+        ctx.shadowColor = '#00ff88';
+        ctx.shadowBlur = 15;
+        ctx.beginPath();
+        ctx.arc(food.x*size + size/2, food.y*size + size/2, size/2 - 2, 0, Math.PI*2);
+        ctx.fill();
+        const themeColor = getComputedStyle(document.body).getPropertyValue('--primary').trim() || '#1e90ff';
+        snake.forEach((s, i) => {
+            ctx.fillStyle = i === 0 ? '#fff' : themeColor;
+            ctx.shadowColor = themeColor;
+            ctx.shadowBlur = i === 0 ? 20 : 8;
+            ctx.fillRect(s.x*size + 2, s.y*size + 2, size - 4, size - 4);
+        });
+        ctx.shadowBlur = 0;
+    }
+    function tick() {
+        dir = nextDir;
+        const head = {x: snake[0].x + dir.x, y: snake[0].y + dir.y};
+        if (head.x < 0 || head.x >= cells || head.y < 0 || head.y >= cells) return gameOver();
+        if (snake.some(s => s.x === head.x && s.y === head.y)) return gameOver();
+        snake.unshift(head);
+        if (head.x === food.x && head.y === food.y) {
+            score += 10;
+            scoreEl.textContent = score;
+            placeFood();
+        } else snake.pop();
+        draw();
+    }
+    function gameOver() {
+        stop();
+        if (score > best) {
+            best = score;
+            bestEl.textContent = best;
+            localStorage.setItem('snake-best', best);
+        }
+        ctx.fillStyle = 'rgba(0,0,0,0.75)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--primary').trim() || '#1e90ff';
+        ctx.font = 'bold 28px Outfit, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('GAME OVER', canvas.width/2, canvas.height/2 - 15);
+        ctx.font = '16px JetBrains Mono, monospace';
+        ctx.fillStyle = '#fff';
+        ctx.fillText('Score: ' + score, canvas.width/2, canvas.height/2 + 15);
+        ctx.fillText('Click to restart', canvas.width/2, canvas.height/2 + 45);
+        canvas.addEventListener('click', restartOnce);
+    }
+    function restartOnce() {
+        canvas.removeEventListener('click', restartOnce);
+        start();
+    }
+    function onKey(e) {
+        const k = e.key.toLowerCase();
+        if ((k === 'arrowup' || k === 'w') && dir.y === 0) nextDir = {x: 0, y: -1};
+        else if ((k === 'arrowdown' || k === 's') && dir.y === 0) nextDir = {x: 0, y: 1};
+        else if ((k === 'arrowleft' || k === 'a') && dir.x === 0) nextDir = {x: -1, y: 0};
+        else if ((k === 'arrowright' || k === 'd') && dir.x === 0) nextDir = {x: 1, y: 0};
+    }
+    document.addEventListener('keydown', onKey);
+    function start() {
+        if (running) return;
+        reset();
+        running = true;
+        draw();
+        timer = setInterval(tick, 120);
+    }
+    function stop() {
+        running = false;
+        if (timer) clearInterval(timer);
+    }
+    return { start, stop };
+}
+
+// ============ MINECRAFT SHADER ============
+(function() {
+    const canvas = document.getElementById('shader-canvas');
+    if (!canvas) return;
+    const gl = canvas.getContext('webgl', { antialias: false, alpha: true, powerPreference: 'low-power' });
+    if (!gl) { canvas.style.display = 'none'; return; }
+
+    const vs = `attribute vec2 p; void main() { gl_Position = vec4(p, 0.0, 1.0); }`;
+    const fs = `
+        precision mediump float;
+        uniform vec2 u_res;
+        uniform vec2 u_mouse;
+        uniform float u_time;
+        uniform vec3 u_color;
+
+        float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+        float noise(vec2 p) {
+            vec2 i = floor(p); vec2 f = fract(p);
+            float a = hash(i), b = hash(i + vec2(1.0, 0.0));
+            float c = hash(i + vec2(0.0, 1.0)), d = hash(i + vec2(1.0, 1.0));
+            vec2 u = f * f * (3.0 - 2.0 * f);
+            return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+        }
+
+        void main() {
+            vec2 uv = gl_FragCoord.xy / u_res;
+            vec2 m = u_mouse / u_res;
+            float dist = distance(uv, m);
+            float wave = sin(dist * 30.0 - u_time * 3.0) * 0.008 * smoothstep(0.5, 0.0, dist);
+            vec2 duv = uv + vec2(wave, wave * 0.7);
+            float n = noise(duv * 8.0 + u_time * 0.15);
+            n += noise(duv * 16.0 - u_time * 0.1) * 0.5;
+            vec2 vc = uv - 0.5;
+            float vig = 1.0 - smoothstep(0.3, 0.9, length(vc)) * 0.8;
+            float ca = 0.003 * (1.0 - vig);
+            float r = n * u_color.r * (1.0 + ca);
+            float g = n * u_color.g;
+            float b = n * u_color.b * (1.0 - ca);
+            vec3 col = vec3(r, g, b) * vig * (0.35 + 0.65 * n);
+            gl_FragColor = vec4(col, 0.45 * vig * n);
+        }
+    `;
+
+    function compile(type, src) {
+        const s = gl.createShader(type);
+        gl.shaderSource(s, src);
+        gl.compileShader(s);
+        if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+            console.warn(gl.getShaderInfoLog(s));
+            return null;
+        }
+        return s;
+    }
+    const v = compile(gl.VERTEX_SHADER, vs);
+    const f = compile(gl.FRAGMENT_SHADER, fs);
+    if (!v || !f) { canvas.style.display = 'none'; return; }
+    const prog = gl.createProgram();
+    gl.attachShader(prog, v);
+    gl.attachShader(prog, f);
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { canvas.style.display = 'none'; return; }
+    gl.useProgram(prog);
+
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(prog, 'p');
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+    const uRes = gl.getUniformLocation(prog, 'u_res');
+    const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+    const uTime = gl.getUniformLocation(prog, 'u_time');
+    const uColor = gl.getUniformLocation(prog, 'u_color');
+
+    let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+    let targetX = mouseX, targetY = mouseY;
+    let active = !localStorage.getItem('nhat-shader-off');
+    let rafId = null;
+    let lastRender = 0;
+    const FPS_CAP = 30;
+
+    function hexToRgb(hex) {
+        const m = hex.replace('#','');
+        const h = m.length === 3 ? m.split('').map(c => c + c).join('') : m;
+        return [parseInt(h.substr(0,2),16)/255, parseInt(h.substr(2,2),16)/255, parseInt(h.substr(4,2),16)/255];
+    }
+    function getThemeColor() {
+        const c = getComputedStyle(document.body).getPropertyValue('--primary').trim() || '#1e90ff';
+        return hexToRgb(c);
+    }
+    function resize() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+        gl.viewport(0, 0, canvas.width, canvas.height);
+        gl.uniform2f(uRes, canvas.width, canvas.height);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    window.addEventListener('mousemove', (e) => {
+        targetX = e.clientX * Math.min(window.devicePixelRatio || 1, 1.5);
+        targetY = (window.innerHeight - e.clientY) * Math.min(window.devicePixelRatio || 1, 1.5);
+    }, { passive: true });
+
+    function frame(t) {
+        rafId = requestAnimationFrame(frame);
+        if (document.body.classList.contains('reduce-motion')) return;
+        if (document.body.classList.contains('low-perf')) {
+            // máy yếu: dừng shader hẳn (perf guard thắng cả nút toggle)
+            cancelAnimationFrame(rafId); rafId = null;
+            canvas.style.opacity = '0';
+            return;
+        }
+        if (t - lastRender < 1000 / FPS_CAP) return;
+        lastRender = t;
+        if (document.hidden) return;
+        mouseX += (targetX - mouseX) * 0.08;
+        mouseY += (targetY - mouseY) * 0.08;
+        const rgb = getThemeColor();
+        gl.uniform2f(uMouse, mouseX, mouseY);
+        gl.uniform1f(uTime, t * 0.001);
+        gl.uniform3f(uColor, rgb[0], rgb[1], rgb[2]);
+        gl.clearColor(0, 0, 0, 0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    }
+    if (active) rafId = requestAnimationFrame(frame);
+
+    const toggle = document.getElementById('shaderToggle');
+    if (!active) toggle.classList.add('off');
+    toggle.addEventListener('click', () => {
+        active = !active;
+        toggle.classList.toggle('off', !active);
+        if (active) {
+            canvas.style.opacity = '0.85';
+            if (!rafId) rafId = requestAnimationFrame(frame);
+            localStorage.removeItem('nhat-shader-off');
+        } else {
+            canvas.style.opacity = '0';
+            if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+            localStorage.setItem('nhat-shader-off', '1');
+        }
+    });
+})();
+
+// ============ SCROLL PROGRESS + BACK TO TOP ============
+(function() {
+    const bar = document.getElementById('scroll-progress');
+    const btn = document.getElementById('backToTop');
+    if (!bar || !btn) return;
+    const onScroll = () => {
+        const h = document.documentElement;
+        const max = h.scrollHeight - h.clientHeight;
+        const p = max > 0 ? (h.scrollTop / max) : 0;
+        bar.style.transform = `scaleX(${p})`;
+        btn.classList.toggle('show', h.scrollTop > 600);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    btn.addEventListener('click', () => window.scrollTo({ behavior: 'smooth', top: 0 }));
+})();
+
+// ============ CUSTOM CURSOR ============
+(function() {
+    if (window.matchMedia('(hover: none)').matches) return;
+    const dot = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    if (!dot || !ring) return;
+    let mx = -100, my = -100, rx = -100, ry = -100;
+    document.addEventListener('mousemove', (e) => {
+        mx = e.clientX; my = e.clientY;
+        dot.style.transform = `translate(${mx}px, ${my}px)`;
+    }, { passive: true });
+    (function follow() {
+        requestAnimationFrame(follow);
+        if (document.body.classList.contains('reduce-motion')) return;
+        rx += (mx - rx) * 0.16;
+        ry += (my - ry) * 0.16;
+        ring.style.transform = `translate(${rx}px, ${ry}px)`;
+    })();
+    document.querySelectorAll('a, button, .action-btn, .theme-dot, .music-btn, .badge-card, .project-card, .shader-toggle').forEach(el => {
+        el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
+        el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
+    });
+})();
+
+// ============ 3D TILT CARDS ============
+(function() {
+    if (window.matchMedia('(hover: none)').matches) return;
+    document.querySelectorAll('.project-card').forEach(card => {
+        const glare = document.createElement('div');
+        glare.className = 'card-glare';
+        card.appendChild(glare);
+        card.addEventListener('mousemove', (e) => {
+            const r = card.getBoundingClientRect();
+            const px = (e.clientX - r.left) / r.width - 0.5;
+            const py = (e.clientY - r.top) / r.height - 0.5;
+            card.style.transform = `translateY(-12px) perspective(900px) rotateY(${(px * 10).toFixed(2)}deg) rotateX(${(-py * 10).toFixed(2)}deg)`;
+            glare.style.background = `radial-gradient(circle at ${((px + 0.5) * 100).toFixed(1)}% ${((py + 0.5) * 100).toFixed(1)}%, rgba(255,255,255,0.18), transparent 60%)`;
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+            glare.style.background = 'transparent';
+        });
+    });
+})();
+
+// ============ COMMAND PALETTE (Ctrl+K) ============
+(function() {
+    const modal = document.getElementById('cmdkModal');
+    const input = document.getElementById('cmdkInput');
+    const list = document.getElementById('cmdkList');
+    if (!modal || !input || !list) return;
+    const items = [
+        { label: 'About me', icon: 'bi-person-badge', run: () => scrollToSection('about') },
+        { label: 'GitHub repos', icon: 'bi-github', run: () => scrollToSection('github-repos') },
+        { label: 'Live activity', icon: 'bi-activity', run: () => scrollToSection('activity') },
+        { label: 'Skills', icon: 'bi-cpu', run: () => scrollToSection('skills') },
+        { label: 'Badges', icon: 'bi-award-fill', run: () => scrollToSection('achievements') },
+        { label: 'Journey', icon: 'bi-rocket-launch', run: () => scrollToSection('journey') },
+        { label: 'Certifications', icon: 'bi-patch-check-fill', run: () => scrollToSection('certs') },
+        { label: 'Music player', icon: 'bi-music-note-beamed', run: () => scrollToSection('music') },
+        { label: 'Contact', icon: 'bi-envelope', run: () => scrollToSection('contact') },
+        { label: 'Theme: Cyber Blue', icon: 'bi-palette', run: () => applyTheme('blue') },
+        { label: 'Theme: Neon Red', icon: 'bi-palette', run: () => applyTheme('red') },
+        { label: 'Theme: Matrix Green', icon: 'bi-palette', run: () => applyTheme('matrix') },
+        { label: 'Theme: Sunset Purple', icon: 'bi-palette', run: () => applyTheme('purple') },
+        { label: 'Toggle shader background', icon: 'bi-magic', run: () => document.getElementById('shaderToggle').click() },
+        { label: 'Matrix mode easter egg', icon: 'bi-lightning-charge', run: () => activateMatrixMode() },
+        { label: 'Play Snake game', icon: 'bi-joystick', run: () => openGame() }
+    ];
+    let activeIdx = 0, filtered = items;
+    function render() {
+        list.innerHTML = '';
+        filtered.forEach((it, i) => {
+            const el = document.createElement('div');
+            el.className = 'cmdk-item' + (i === activeIdx ? ' active' : '');
+            const icon = document.createElement('i');
+            icon.className = 'bi ' + it.icon;
+            const span = document.createElement('span');
+            span.textContent = it.label;
+            el.appendChild(icon);
+            el.appendChild(span);
+            el.addEventListener('click', () => runItem(i));
+            el.addEventListener('mousemove', () => { if (activeIdx !== i) { activeIdx = i; render(); } });
+            list.appendChild(el);
+        });
+        const active = list.children[activeIdx];
+        if (active) active.scrollIntoView({ block: 'nearest' });
+    }
+    function runItem(i) {
+        const it = filtered[i];
+        close();
+        if (it) it.run();
+    }
+    function open() {
+        modal.classList.add('active');
+        input.value = '';
+        activeIdx = 0;
+        filtered = items;
+        render();
+        setTimeout(() => input.focus(), 30);
+    }
+    function close() {
+        modal.classList.remove('active');
+        input.blur();
+    }
+    input.addEventListener('input', () => {
+        const q = input.value.trim().toLowerCase();
+        filtered = items.filter(it => it.label.toLowerCase().includes(q));
+        activeIdx = 0;
+        render();
+    });
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown') { e.preventDefault(); activeIdx = Math.min(activeIdx + 1, filtered.length - 1); render(); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); activeIdx = Math.max(activeIdx - 1, 0); render(); }
+        else if (e.key === 'Enter') runItem(activeIdx);
+        else if (e.key === 'Escape') close();
+    });
+    modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+    document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); modal.classList.contains('active') ? close() : open(); }
+        else if (e.key === 'Escape' && modal.classList.contains('active')) close();
+    });
+})();
+
+// ============ CLOCK + UPTIME ============
+(function() {
+    const clockEl = document.getElementById('local-clock');
+    const upEl = document.getElementById('site-uptime');
+    if (!clockEl || !upEl) return;
+    const start = Date.now();
+    function tick() {
+        const now = new Date();
+        clockEl.textContent = now.toLocaleTimeString('vi-VN', { hour12: false }) + ' local';
+        const s = Math.floor((Date.now() - start) / 1000);
+        const d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60);
+        upEl.textContent = `${d}d ${h}h ${m}m`;
+    }
+    tick();
+    setInterval(tick, 1000);
+})();
+</script>
+
+<!-- ============================================================
+     NH LIVE STATUS + HỘP ĐÊM ẢO (Web Audio Sync)
+     Cách dùng: dán toàn bộ khối này vào TRƯỚC thẻ </body>.
+     Topic phải khớp NH_LIVE_TOPIC trong extension (nhathoang.js).
+     Web nhận "bản đồ nhịp" của bài qua ntfy, tự dựng lại đồng hồ
+     phát nhạc tại trình duyệt rồi chớp sáng theo từng beat.
+     Biến CSS --nh-beat (0..1) được cập nhật liên tục — shader
+     hoặc CSS của site có thể đọc biến này để đập theo nhịp.
+     ============================================================ -->
+<style>
+@keyframes nh-live-pulse{0%,100%{opacity:1}50%{opacity:0.25}}
+#nh-live{position:fixed;left:18px;bottom:18px;z-index:9998;display:none;align-items:center;gap:12px;padding:10px 14px;border-radius:14px;background:rgba(13,17,23,0.72);border:1px solid color-mix(in srgb,var(--accent,#00c6ff) 40%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 8px 32px rgba(0,0,0,0.45);color:#e8f1ff;max-width:min(92vw,380px);cursor:pointer;transform-origin:bottom left;will-change:transform}
+#nh-live img{width:46px;height:46px;border-radius:9px;object-fit:cover;display:none;flex:none}
+#nh-live .nh-live-main{min-width:0}
+#nh-live .nh-live-top{display:flex;align-items:center;gap:7px;font-family:var(--font-code,'JetBrains Mono',monospace);font-size:10px;letter-spacing:2px;color:var(--accent,#00c6ff)}
+#nh-live-dot{width:8px;height:8px;border-radius:50%;background:#00ff41;box-shadow:0 0 8px #00ff41;animation:nh-live-pulse 1.6s infinite;flex:none}
+#nh-live-title{font-family:var(--font-main,'Be Vietnam Pro',sans-serif);font-size:14px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
+#nh-live-artist{font-family:var(--font-main,'Be Vietnam Pro',sans-serif);font-size:12px;color:var(--accent,#00c6ff);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#nh-live-join{margin-top:8px;display:inline-block;font-family:var(--font-code,'JetBrains Mono',monospace);font-size:11px;letter-spacing:1px;color:#0b0f14;background:var(--accent,#00c6ff);border:none;border-radius:8px;padding:6px 10px;cursor:pointer;font-weight:700}
+#nh-room{display:none;margin-top:10px;border-top:1px solid rgba(255,255,255,.15);padding-top:8px}
+#nh-room-bar{height:6px;background:rgba(255,255,255,.15);border-radius:3px;overflow:hidden;margin:6px 0}
+#nh-room-fill{height:100%;width:0;background:var(--accent,#00c6ff)}
+#nh-room-time{font-family:var(--font-code,'JetBrains Mono',monospace);font-size:11px;color:#8a9ba8}
+#nh-room-note{font-size:11px;color:#8a9ba8;margin-top:6px;line-height:1.5}
+#nh-beat-flash{position:fixed;inset:0;z-index:9997;pointer-events:none;opacity:0;background:radial-gradient(ellipse 90% 65% at 50% 115%,color-mix(in srgb,var(--accent,#00c6ff) 60%,transparent),transparent 65%),linear-gradient(rgba(255,255,255,0.05),rgba(255,255,255,0.05))}
+</style>
+<div id="nh-beat-flash"></div>
+<div id="nh-live" title="Mở bài hát trên Spotify">
+  <img id="nh-live-img" alt="" onerror="this.style.display='none'">
+  <div class="nh-live-main">
+    <div class="nh-live-top"><span id="nh-live-dot"></span><span id="nh-live-label">ĐANG NGHE TRÊN SPOTIFY</span></div>
+    <div id="nh-live-title"></div>
+    <div id="nh-live-artist"></div>
+    <button id="nh-live-join">🎧 Nghe cùng Hoàng</button>
+    <div id="nh-room">
+      <div id="nh-room-bar"><div id="nh-room-fill"></div></div>
+      <div id="nh-room-time">—</div>
+      <audio id="nh-room-audio" controls preload="none" style="width:100%;margin-top:6px"></audio>
+      <div id="nh-room-note"></div>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var TOPIC = 'nhathoang-live-2682bdb49f';
+  var box = document.getElementById('nh-live'),
+      img = document.getElementById('nh-live-img'),
+      titleEl = document.getElementById('nh-live-title'),
+      artistEl = document.getElementById('nh-live-artist'),
+      dot = document.getElementById('nh-live-dot'),
+      label = document.getElementById('nh-live-label'),
+      flash = document.getElementById('nh-beat-flash'),
+      trackUrl = '',
+      npState = null,          // bài đang nghe gần nhất
+      beatMap = null,          // { uri, times:[ms], gains:[0..1] }
+      energy = 0, beatPtr = 0, lastPos = -1,
+      reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  box.addEventListener('click', function () { if (trackUrl) window.open(trackUrl, '_blank'); });
+
+  // ===== PHÒNG NGHE CHUNG: tiến độ phát trực tiếp của Hoàng + bản preview =====
+  var joinBtn = document.getElementById('nh-live-join'),
+      room = document.getElementById('nh-room'),
+      roomFill = document.getElementById('nh-room-fill'),
+      roomTime = document.getElementById('nh-room-time'),
+      roomAudio = document.getElementById('nh-room-audio'),
+      roomNote = document.getElementById('nh-room-note'),
+      roomTimer = null, roomOpen = false;
+  function fmtRoom(ms) { var s = Math.max(0, Math.floor(ms / 1000)); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+  joinBtn.addEventListener('click', function (ev) {
+    ev.stopPropagation(); // không mở Spotify khi bấm nút phòng nghe
+    roomOpen = !roomOpen;
+    room.style.display = roomOpen ? 'block' : 'none';
+    joinBtn.textContent = roomOpen ? '✕ Đóng phòng nghe chung' : '🎧 Nghe cùng Hoàng';
+    if (!roomOpen) { if (roomTimer) clearInterval(roomTimer); roomTimer = null; roomAudio.pause(); return; }
+    if (!npState || !npState.title) { roomNote.textContent = 'Hoàng chưa phát bài nào gần đây.'; return; }
+    roomNote.textContent = 'Đang tìm bản preview của bài này...';
+    var q = encodeURIComponent((npState.title || '') + ' ' + (npState.artist || ''));
+    fetch('https://itunes.apple.com/search?term=' + q + '&media=music&limit=1')
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (j.results && j.results.length && j.results[0].previewUrl) {
+          roomAudio.src = j.results[0].previewUrl;
+          roomAudio.play().catch(function () {});
+          roomNote.textContent = 'Bản preview 30s từ iTunes — cùng bài với Hoàng, nhưng có thể không khớp đúng đoạn Hoàng đang nghe (preview chỉ là đoạn trích).';
+        } else {
+          roomNote.textContent = 'Không tìm thấy bản preview cho bài này — bạn vẫn xem được tiến độ phát trực tiếp của Hoàng ở thanh bên trên.';
+        }
+      })
+      .catch(function () { roomNote.textContent = 'Không tải được preview lúc này.'; });
+    if (roomTimer) clearInterval(roomTimer);
+    roomTimer = setInterval(function () {
+      if (!npState || !npState.durationMs) { roomTime.textContent = '—'; return; }
+      var pos = estPos();
+      roomFill.style.width = Math.min(100, pos / npState.durationMs * 100) + '%';
+      roomTime.textContent = 'Hoàng đang nghe: ' + fmtRoom(pos) + ' / ' + fmtRoom(npState.durationMs) + (npState.isPlaying ? '' : ' (tạm dừng)');
+    }, 500);
+  });
+
+  function render(p) {
+    if (!p || !p.title) { box.style.display = 'none'; return; }
+    var stale = Date.now() - (p.ts || 0) > 10 * 60 * 1000;
+    box.style.display = 'flex';
+    titleEl.textContent = p.title;
+    artistEl.textContent = p.artist || '';
+    if (p.img) { img.src = p.img; img.style.display = 'block'; } else { img.style.display = 'none'; }
+    trackUrl = p.uri ? 'https://open.spotify.com/track/' + p.uri.split(':').pop() : '';
+    if (stale) { dot.style.background = '#5b6b7a'; dot.style.boxShadow = 'none'; label.textContent = 'VỪA NGHE'; }
+    else if (p.isPlaying) { dot.style.background = '#00ff41'; dot.style.boxShadow = '0 0 8px #00ff41'; label.textContent = 'ĐANG NGHE TRÊN SPOTIFY'; }
+    else { dot.style.background = '#e5c07b'; dot.style.boxShadow = '0 0 8px #e5c07b'; label.textContent = 'SPOTIFY • ĐANG TẠM DỪNG'; }
+  }
+
+  // Giải nén bản đồ nhịp: mỗi beat 4 ký tự base36 (3 thời gian x20ms + 1 độ mạnh)
+  function parseBeats(msg) {
+    var parts = msg.split('|');
+    if (parts.length < 3) return;
+    var packed = parts[2], times = [], gains = [], i, t, g;
+    for (i = 0; i + 4 <= packed.length; i += 4) {
+      t = parseInt(packed.substr(i, 3), 36);
+      g = parseInt(packed.substr(i + 3, 1), 36);
+      if (isNaN(t) || isNaN(g)) continue;
+      times.push(t * 20); gains.push(g / 35);
+    }
+    if (times.length) beatMap = { uri: parts[1], times: times, gains: gains };
+  }
+
+  function poll() {
+    fetch('https://ntfy.sh/' + TOPIC + '/json?poll=1')
+      .then(function (r) { return r.text(); })
+      .then(function (t) {
+        var lines = t.trim().split('\n'), lastNp = null, i, o;
+        for (i = 0; i < lines.length; i++) {
+          try {
+            o = JSON.parse(lines[i]);
+            if (o.event !== 'message' || !o.message) continue;
+            if (o.message.charAt(0) === '{') lastNp = o.message;
+            else if (o.message.indexOf('BEATS|') === 0) parseBeats(o.message);
+          } catch (e) {}
+        }
+        if (lastNp) { try { npState = JSON.parse(lastNp); render(npState); } catch (e) {} }
+      })
+      .catch(function () {});
+  }
+  poll();
+  setInterval(poll, 20000);
+
+  // ===== HỘP ĐÊM ẢO: engine chớp sáng theo beat =====
+  function estPos() {
+    if (!npState) return -1;
+    if (!npState.isPlaying) return npState.progressMs || 0;
+    return (npState.progressMs || 0) + (Date.now() - (npState.ts || Date.now()));
+  }
+  function setEnergy(v) {
+    flash.style.opacity = (v * 0.55).toFixed(3);
+    document.documentElement.style.setProperty('--nh-beat', v.toFixed(3));
+    box.style.transform = v > 0.03 ? 'scale(' + (1 + v * 0.045).toFixed(3) + ')' : '';
+  }
+  function engine() {
+    requestAnimationFrame(engine);
+    if (document.hidden || reduced) return;
+    if (!npState || !npState.isPlaying || !beatMap || beatMap.uri !== npState.uri) {
+      if (energy > 0.001) { energy *= 0.9; setEnergy(energy); }
+      return;
+    }
+    var pos = estPos(), i;
+    if (lastPos < 0 || Math.abs(pos - lastPos) > 400 || pos < lastPos) {
+      beatPtr = 0;
+      while (beatPtr < beatMap.times.length && beatMap.times[beatPtr] < pos) beatPtr++;
+    }
+    lastPos = pos;
+    while (beatPtr < beatMap.times.length && beatMap.times[beatPtr] <= pos) {
+      energy = Math.max(energy, 0.25 + beatMap.gains[beatPtr] * 0.75);
+      beatPtr++;
+    }
+    energy *= 0.90;
+    setEnergy(energy);
+  }
+  requestAnimationFrame(engine);
+})();
+</script>
+
+</body>
+</html>
